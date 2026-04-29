@@ -39,7 +39,6 @@
             transition: all 0.5s ease;
         }
         
-        /* Cursor sutil */
         #cursor {
             position: fixed;
             width: 8px;
@@ -53,7 +52,6 @@
             top: 0;
         }
 
-        /* Efecto de grano */
         .grain {
             position: fixed;
             inset: 0;
@@ -63,7 +61,6 @@
             background-image: url('https://grainy-gradients.vercel.app/noise.svg');
         }
 
-        /* Animaciones */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -74,7 +71,6 @@
             transform: translateY(0);
         }
 
-        /* Ken Burns Effect para el Carrusel */
         @keyframes kenburns {
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
@@ -83,7 +79,6 @@
             animation: kenburns 10s ease-out forwards;
         }
 
-        /* Glassmorphism */
         .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -95,13 +90,11 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 3px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
 
         html { scroll-behavior: smooth; }
 
-        /* Icon fix */
         [data-lucide] {
             display: inline-block;
             vertical-align: middle;
@@ -227,7 +220,6 @@
             return (
                 <div className="relative min-h-screen pb-20">
                     
-                    {/* NAV: FLOTANTE */}
                     <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[200] bg-white/5 backdrop-blur-xl border border-white/10 px-8 py-4 rounded-full flex items-center gap-6 md:gap-12 shadow-2xl">
                         <div className="text-xl font-bold tracking-tighter uppercase saga-font">SAGA</div>
                         <div className="hidden md:flex gap-8">
@@ -238,7 +230,6 @@
                         <button onClick={() => setIsContactOpen(true)} className="text-[10px] font-bold uppercase tracking-[0.2em] bg-white text-black px-5 py-2 rounded-full hover:scale-105 active:scale-95 transition-all">Hablemos</button>
                     </nav>
 
-                    {/* HERO CAROUSEL */}
                     <section id="inicio" className="relative h-screen w-full overflow-hidden">
                         {heroSlides.map((slide, idx) => (
                             <div 
@@ -284,19 +275,18 @@
                         </div>
                     </section>
 
-                    {/* ESTUDIO: SECCIÓN VISUAL ACTUALIZADA */}
+                    {/* ESTUDIO: SECCIÓN VISUAL CON ENLACES A LINKEDIN */}
                     <section id="estudio" className="py-48 px-6 md:px-20 max-w-7xl mx-auto scroll-mt-24">
                         <div className="reveal">
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                                 
-                                {/* Columna de Texto */}
                                 <div className="lg:col-span-7">
                                     <h2 className="text-4xl md:text-6xl font-bold mb-12 saga-font uppercase italic opacity-20 tracking-tighter">EL ORIGEN.</h2>
                                     <p className="text-2xl md:text-4xl font-light leading-snug italic text-white/60 mb-12">
                                         SAGA es la <span className="text-white font-medium not-italic border-b border-white/20">sinergia genética</span> de Sebastián y Gabriela Acevedo. 
                                     </p>
                                     <p className="text-xl md:text-2xl font-light leading-relaxed text-white/40 italic max-w-2xl mb-12">
-                                        Una herencia de 10 años fusionando visión fraternal y estrategia para crear <span className="text-white">narrativas visuales</span> que no solo se consumen, sino que se recuerdan.
+                                        Una herencia de 10 años fusionando visión fraternal y estrategia para crear <span className="text-white font-medium not-italic">narrativas visuales</span> que no solo se consumen, sino que se recuerdan.
                                     </p>
                                     
                                     <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-12">
@@ -311,23 +301,32 @@
                                     </div>
                                 </div>
 
-                                {/* Columna Visual: Dos Marcos para Fotos */}
                                 <div className="lg:col-span-5 relative">
                                     <div className="relative grid grid-cols-2 gap-4">
                                         {/* Foto Sebastián */}
-                                        <div className="relative group overflow-hidden rounded-2xl aspect-[3/4] translate-y-8 transition-all duration-700 hover:-translate-y-2 glass-card">
+                                        <a 
+                                            href="https://www.linkedin.com/in/sebastian-acevedo" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="relative group overflow-hidden rounded-2xl aspect-[3/4] translate-y-8 transition-all duration-700 hover:-translate-y-2 glass-card block cursor-none interactive"
+                                        >
                                             <img 
-                                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" 
+                                                src="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/imagen_2026-04-29_230235712.png" 
                                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
                                                 alt="Sebastián Acevedo"
                                             />
                                             <div className="absolute bottom-4 left-4">
                                                 <span className="text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white/70">Sebastián</span>
                                             </div>
-                                        </div>
+                                        </a>
 
                                         {/* Foto Gabriela */}
-                                        <div className="relative group overflow-hidden rounded-2xl aspect-[3/4] -translate-y-8 transition-all duration-700 hover:-translate-y-12 glass-card">
+                                        <a 
+                                            href="https://www.linkedin.com/in/gabriela-acevedo" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="relative group overflow-hidden rounded-2xl aspect-[3/4] -translate-y-8 transition-all duration-700 hover:-translate-y-12 glass-card block cursor-none interactive"
+                                        >
                                             <img 
                                                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80" 
                                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
@@ -336,16 +335,14 @@
                                             <div className="absolute bottom-4 left-4">
                                                 <span className="text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white/70">Gabriela</span>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                     <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
                                 </div>
-
                             </div>
                         </div>
                     </section>
 
-                    {/* INDEX: TRABAJOS SELECCIONADOS */}
                     <section id="index" className="py-40 px-6 max-w-7xl mx-auto scroll-mt-20">
                         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 reveal">
                             <h2 className="text-4xl md:text-6xl font-bold saga-font">INDEX.</h2>
@@ -385,7 +382,6 @@
                         </div>
                     </section>
 
-                    {/* MODAL DE CONTACTO */}
                     {isContactOpen && (
                         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
                             <div className="absolute inset-0 bg-black/95 backdrop-blur-xl animate-in fade-in" onClick={() => setIsContactOpen(false)}></div>
@@ -404,7 +400,6 @@
                         </div>
                     )}
 
-                    {/* DASHBOARD DE PROYECTO */}
                     {selectedProject && (
                         <div className="fixed inset-0 z-[300] flex items-center justify-center">
                             <div className="absolute inset-0 bg-black/98" onClick={() => setSelectedProject(null)}></div>
@@ -434,7 +429,6 @@
                         </div>
                     )}
 
-                    {/* LIGHTBOX FINAL */}
                     {activeMedia && (
                         <div className="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/99" onClick={() => setActiveMedia(null)}>
                             <div className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
@@ -450,7 +444,6 @@
                         </div>
                     )}
 
-                    {/* FOOTER */}
                     <footer className="py-40 px-8 text-center">
                         <div className="reveal">
                             <h2 className="text-[12vw] font-black saga-font opacity-5 mb-12 uppercase italic">SAGA STUDIO</h2>
