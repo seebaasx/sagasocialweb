@@ -8,16 +8,17 @@
     <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FUENTES: Syne para impacto y Inter para legibilidad -->
+    <!-- FUENTES: Syne para impacto y Inter para limpieza -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #050505;
+            --bg: #0a0a0b;
             --accent: #ffffff;
-            --muted: rgba(255, 255, 255, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body { 
@@ -29,39 +30,13 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3, .saga-display { 
+        h1, h2, h3, .saga-font { 
             font-family: 'Syne', sans-serif; 
-            letter-spacing: -0.04em;
+            letter-spacing: -0.03em;
         }
         
-        /* Efecto de ruido analógico */
-        .noise {
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0.03;
-            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-        }
-
-        /* Orbes de fondo dinámicos */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
-            transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        /* Scrollbar minimalista */
-        .custom-scrollbar::-webkit-scrollbar { width: 2px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
-
-        /* Cursor Premium */
-        #cursor-dot {
+        /* Cursor sutil */
+        #cursor {
             position: fixed;
             width: 8px;
             height: 8px;
@@ -69,67 +44,70 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
-            will-change: transform;
-            transition: width 0.3s, height 0.3s, background 0.3s;
+            transition: transform 0.1s ease-out, opacity 0.3s;
+            left: 0;
+            top: 0;
         }
-        #cursor-blur {
+
+        /* Efecto de grano */
+        .grain {
             position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50%;
+            inset: 0;
+            z-index: 50;
             pointer-events: none;
-            z-index: 9999;
-            will-change: transform;
-            transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+            opacity: 0.02;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
         }
 
-        @media (max-width: 768px) {
-            #cursor-dot, #cursor-blur { display: none; }
+        /* Animaciones */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Animación de entrada de texto */
-        .mask-text {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-            display: block;
+        /* Ken Burns Effect para el Carrusel */
+        @keyframes kenburns {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
-        
-        @keyframes reveal-up {
-            from { transform: translateY(110%); }
-            to { transform: translateY(0); }
-        }
-        .reveal-up { 
-            animation: reveal-up 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        .animate-kenburns {
+            animation: kenburns 10s ease-out forwards;
         }
 
-        /* Glassmorphism Refinado */
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* Glassmorphism */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            transition: all 0.5s ease;
         }
-
-        .project-card {
-            transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+
         html { scroll-behavior: smooth; }
+
+        /* Icon fix */
+        [data-lucide] {
+            display: inline-block;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body class="cursor-none">
-    <div id="cursor-dot"></div>
-    <div id="cursor-blur"></div>
-    <div class="noise"></div>
+    <div id="cursor"></div>
+    <div class="grain"></div>
     
-    <!-- Orbes Decorativos -->
-    <div class="orb w-[500px] h-[500px] bg-purple-500 top-[-200px] left-[-100px]"></div>
-    <div class="orb w-[400px] h-[400px] bg-blue-500 bottom-[-100px] right-[-100px]"></div>
-
     <div id="root"></div>
 
     <!-- DEPENDENCIAS -->
@@ -142,89 +120,102 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
+        const Icon = ({ name, size = 20, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [name]);
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
         const App = () => {
             const [activeFilter, setActiveFilter] = useState('Todos');
-            const [isLoaded, setIsLoaded] = useState(false);
             const [selectedProject, setSelectedProject] = useState(null);
             const [activeMedia, setActiveMedia] = useState(null);
+            const [isContactOpen, setIsContactOpen] = useState(false);
+            const [currentSlide, setCurrentSlide] = useState(0);
+
+            const heroSlides = [
+                {
+                    title: "SAGA.",
+                    subtitle: "VISUAL STORIES",
+                    img: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=1600&q=80"
+                },
+                {
+                    title: "EDIT.",
+                    subtitle: "HIGH FREQUENCY",
+                    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80"
+                },
+                {
+                    title: "GROW.",
+                    subtitle: "ALGO STRATEGY",
+                    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1600&q=80"
+                }
+            ];
 
             useEffect(() => {
-                setIsLoaded(true);
-                const dot = document.getElementById('cursor-dot');
-                const blur = document.getElementById('cursor-blur');
-
+                const cursor = document.getElementById('cursor');
                 const moveCursor = (e) => {
-                    const { clientX: x, clientY: y } = e;
                     requestAnimationFrame(() => {
-                        dot.style.transform = `translate3d(${x - 4}px, ${y - 4}px, 0)`;
-                        blur.style.transform = `translate3d(${x - 20}px, ${y - 20}px, 0)`;
+                        cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
                     });
                 };
-
-                const handleHover = (e) => {
-                    if (e.target.closest('button, a, .interactive')) {
-                        dot.style.transform += ' scale(3)';
-                        dot.style.opacity = '0.5';
-                        blur.style.width = '60px';
-                        blur.style.height = '60px';
-                    } else {
-                        dot.style.transform = dot.style.transform.replace(' scale(3)', '');
-                        dot.style.opacity = '1';
-                        blur.style.width = '40px';
-                        blur.style.height = '40px';
-                    }
-                };
-
                 window.addEventListener('mousemove', moveCursor);
-                window.addEventListener('mouseover', handleHover);
-                if (window.lucide) window.lucide.createIcons();
 
+                const timer = setInterval(() => {
+                    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+                }, 5000);
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                if (window.lucide) window.lucide.createIcons();
+                
                 return () => {
                     window.removeEventListener('mousemove', moveCursor);
-                    window.removeEventListener('mouseover', handleHover);
+                    clearInterval(timer);
+                    observer.disconnect();
                 };
             }, []);
-
-            useEffect(() => {
-                if (window.lucide) window.lucide.createIcons();
-            }, [activeFilter, selectedProject, activeMedia]);
 
             const projects = [
                 { 
                     id: 1, 
-                    title: "NEON VELOCITY", 
+                    title: "ESSENCE", 
                     category: "Video", 
                     img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80", 
                     tag: "Production",
-                    span: "col-span-1 md:col-span-2",
-                    description: "Capturando la esencia del movimiento urbano a través de una edición cinética de alta frecuencia.",
+                    span: "col-span-1 md:col-span-2 h-[400px] md:h-[600px]",
+                    description: "Capturando la pureza del movimiento en un formato cinematográfico vertical.",
                     items: [
-                        { type: 'video', url: "https://www.w3schools.com/html/mov_bbb.mp4", thumb: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80", title: "Corte del Director" },
-                        { type: 'video', url: "https://www.w3schools.com/html/movie.mp4", thumb: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=800&q=80", title: "Detalles Técnicos" }
+                        { type: 'video', url: "https://www.w3schools.com/html/mov_bbb.mp4", thumb: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80", title: "Video Cut" }
                     ]
                 },
                 { 
                     id: 2, 
-                    title: "LIQUID FLOW", 
+                    title: "MINIMAL", 
                     category: "Diseño", 
                     img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", 
                     tag: "Branding",
-                    span: "col-span-1",
-                    description: "Identidad visual fluida diseñada para la adaptabilidad en entornos digitales dinámicos.",
+                    span: "col-span-1 h-[400px]",
+                    description: "Identidad visual de alto nivel basada en la supresión de lo innecesario.",
                     items: [
-                        { type: 'image', url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", title: "Visual Core" }
+                        { type: 'image', url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", title: "Brand Core" }
                     ]
                 },
                 { 
                     id: 3, 
-                    title: "ALGO DOMINANCE", 
+                    title: "GROWTH", 
                     category: "Social Media", 
                     img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80", 
                     tag: "Strategy",
-                    span: "col-span-1",
-                    description: "Estrategias basadas en datos que hackean la atención y escalan comunidades orgánicas.",
+                    span: "col-span-1 h-[400px]",
+                    description: "Escalando marcas mediante narrativa orgánica y coherencia estética.",
                     items: [
-                        { type: 'image', url: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80", title: "Growth Loop" }
+                        { type: 'image', url: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80", title: "Strategy" }
                     ]
                 }
             ];
@@ -232,117 +223,100 @@
             const filteredProjects = activeFilter === 'Todos' ? projects : projects.filter(p => p.category === activeFilter);
 
             return (
-                <div className="relative z-10 min-h-screen">
+                <div className="relative min-h-screen pb-20">
                     
-                    {/* NAVEGACIÓN MODERNA */}
-                    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[200] w-[90%] max-w-5xl glass rounded-2xl px-8 py-4 flex justify-between items-center shadow-2xl">
-                        <div className="text-xl font-extrabold tracking-tighter italic saga-display">
-                            SAGA<span className="opacity-40 uppercase"> STUDIO</span>
-                        </div>
-                        <div className="hidden md:flex gap-10">
-                            {['Inicio', 'Nosotros', 'Trabajo', 'Contacto'].map(item => (
-                                <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 hover:text-white transition-all">{item}</a>
+                    {/* NAV: FLOTANTE */}
+                    <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[200] bg-white/5 backdrop-blur-xl border border-white/10 px-8 py-4 rounded-full flex items-center gap-6 md:gap-12 shadow-2xl">
+                        <div className="text-xl font-bold tracking-tighter uppercase saga-font">SAGA</div>
+                        <div className="hidden md:flex gap-8">
+                            {['Inicio', 'Estudio', 'Index'].map(item => (
+                                <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-medium uppercase tracking-[0.4em] text-white/50 hover:text-white transition-all">{item}</a>
                             ))}
                         </div>
-                        <button className="bg-white text-black px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">Contacto</button>
+                        <button onClick={() => setIsContactOpen(true)} className="text-[10px] font-bold uppercase tracking-[0.2em] bg-white text-black px-5 py-2 rounded-full hover:scale-105 active:scale-95 transition-all">Hablemos</button>
                     </nav>
 
-                    {/* HERO SECTION */}
-                    <section id="inicio" className="h-screen flex flex-col justify-center items-center px-6 text-center relative overflow-hidden">
-                        <div className="max-w-6xl">
-                            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.6em] text-white/40 mb-6 border-b border-white/10 pb-2">
-                                REVOLUCIONANDO EL CONTENIDO DIGITAL
-                            </span>
-                            <h1 className="text-[12vw] md:text-[9vw] font-extrabold leading-[0.8] tracking-tighter uppercase mb-8">
-                                <span className="mask-text"><span className="reveal-up inline-block">BEYOND THE</span></span>
-                                <span className="mask-text italic opacity-30"><span className="reveal-up inline-block" style={{animationDelay: '0.2s'}}>ORDINARY</span></span>
-                                <span className="mask-text"><span className="reveal-up inline-block" style={{animationDelay: '0.4s'}}>SAGA.</span></span>
-                            </h1>
-                            <p className="text-white/40 max-w-xl mx-auto text-lg md:text-xl font-light leading-relaxed italic mb-12">
-                                Estrategia de alto rendimiento y narrativa visual para marcas que no se conforman con el ruido.
+                    {/* HERO CAROUSEL */}
+                    <section id="inicio" className="relative h-screen w-full overflow-hidden">
+                        {heroSlides.map((slide, idx) => (
+                            <div 
+                                key={idx}
+                                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                            >
+                                {/* Background Image with Ken Burns */}
+                                <div className="absolute inset-0">
+                                    <img 
+                                        src={slide.img} 
+                                        className={`w-full h-full object-cover grayscale opacity-40 ${currentSlide === idx ? 'animate-kenburns' : ''}`}
+                                        alt={slide.title}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
+                                </div>
+
+                                {/* Content Overlay */}
+                                <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
+                                    <span className="text-[10px] font-medium uppercase tracking-[1em] text-white/40 mb-6 block overflow-hidden">
+                                        <span className={`block transition-transform duration-700 delay-300 ${currentSlide === idx ? 'translate-y-0' : 'translate-y-full'}`}>
+                                            {slide.subtitle}
+                                        </span>
+                                    </span>
+                                    <h1 className="text-[22vw] md:text-[16vw] font-black leading-none uppercase saga-font overflow-hidden">
+                                        <span className={`block transition-transform duration-1000 ${currentSlide === idx ? 'translate-y-0' : 'translate-y-full'}`}>
+                                            {slide.title}
+                                        </span>
+                                    </h1>
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Indicators / Progress Bars */}
+                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+                            {heroSlides.map((_, idx) => (
+                                <div 
+                                    key={idx} 
+                                    onClick={() => setCurrentSlide(idx)}
+                                    className="w-12 h-0.5 bg-white/10 cursor-pointer relative overflow-hidden"
+                                >
+                                    <div 
+                                        className={`absolute inset-0 bg-white transition-all duration-[5000ms] linear ${currentSlide === idx ? 'w-full' : 'w-0'}`}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* ESTUDIO: SOLO LA ESENCIA */}
+                    <section id="estudio" className="py-40 px-8 max-w-6xl mx-auto scroll-mt-20">
+                        <div className="reveal">
+                            <h2 className="text-4xl md:text-6xl font-bold mb-12 saga-font uppercase italic opacity-20">EL ESTUDIO.</h2>
+                            <p className="text-2xl md:text-4xl font-light leading-snug italic text-white/60 mb-20 max-w-4xl">
+                                Creamos <span className="text-white">narrativas visuales</span> que no solo se consumen, sino que se recuerdan. Menos volumen, más calidad.
                             </p>
-                            <div className="flex justify-center gap-6">
-                                <a href="#nosotros" className="interactive w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all">
-                                    <i data-lucide="arrow-down" className="w-5 h-5"></i>
-                                </a>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    { t: 'Visión', d: 'Anticipamos la estética del mañana.' },
+                                    { t: 'Oficio', d: 'Cada píxel tiene un propósito.' },
+                                    { t: 'Impacto', d: 'Resultados reales, diseño honesto.' }
+                                ].map((item, i) => (
+                                    <div key={i} className="border-l border-white/10 pl-6 py-4">
+                                        <h3 className="text-xs font-bold uppercase tracking-widest mb-2">{item.t}</h3>
+                                        <p className="text-white/40 text-sm italic">{item.d}</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* SECCIÓN QUIENES SOMOS (NOSOTROS) */}
-                    <section id="nosotros" className="py-32 px-6 md:px-20 max-w-[1400px] mx-auto scroll-mt-24">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                            <div className="lg:col-span-5">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-purple-500 mb-4 block">NUESTRO ADN</span>
-                                <h2 className="text-5xl md:text-7xl font-bold uppercase italic tracking-tighter leading-none mb-8">
-                                    LA SAGA <br/> DETRÁS DEL <br/> FRAME.
-                                </h2>
-                                <p className="text-white/50 text-xl font-light leading-relaxed italic mb-10">
-                                    SAGA no es solo un estudio; es una factoría de narrativas contemporáneas. Nacimos de la intersección entre la analítica de datos y el cine experimental.
-                                </p>
-                                <div className="flex flex-col gap-6">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-px bg-white/20"></div>
-                                        <span className="text-sm font-bold uppercase tracking-widest">+50 Marcas Escalandas</span>
-                                    </div>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-px bg-white/20"></div>
-                                        <span className="text-sm font-bold uppercase tracking-widest">Retención Superior al 85%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="glass p-10 rounded-[2.5rem] flex flex-col justify-between group hover:bg-white/10 transition-all cursor-none interactive">
-                                    <div className="mb-10 text-purple-400">
-                                        <i data-lucide="zap" className="w-10 h-10"></i>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold uppercase mb-4 tracking-tighter">Velocidad</h3>
-                                        <p className="text-white/40 text-sm italic">Entregas en tiempo récord sin sacrificar la calidad cinematográfica que nos define.</p>
-                                    </div>
-                                </div>
-                                <div className="glass p-10 rounded-[2.5rem] flex flex-col justify-between group hover:bg-white/10 transition-all mt-0 md:mt-12 cursor-none interactive">
-                                    <div className="mb-10 text-blue-400">
-                                        <i data-lucide="eye" className="w-10 h-10"></i>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold uppercase mb-4 tracking-tighter">Visión</h3>
-                                        <p className="text-white/40 text-sm italic">Detectamos tendencias antes de que el algoritmo las convierta en ruido masivo.</p>
-                                    </div>
-                                </div>
-                                <div className="glass p-10 rounded-[2.5rem] flex flex-col justify-between group hover:bg-white/10 transition-all cursor-none interactive">
-                                    <div className="mb-10 text-orange-400">
-                                        <i data-lucide="trending-up" className="w-10 h-10"></i>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold uppercase mb-4 tracking-tighter">Impacto</h3>
-                                        <p className="text-white/40 text-sm italic">Estrategias diseñadas para convertir visualizaciones en comunidades leales y rentables.</p>
-                                    </div>
-                                </div>
-                                <div className="glass p-10 rounded-[2.5rem] flex flex-col justify-between group hover:bg-white/10 transition-all mt-0 md:mt-12 cursor-none interactive">
-                                    <div className="mb-10 text-green-400">
-                                        <i data-lucide="command" className="w-10 h-10"></i>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold uppercase mb-4 tracking-tighter">Maestría</h3>
-                                        <p className="text-white/40 text-sm italic">Control total sobre el proceso creativo: desde el guion hasta el diseño sonoro final.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* SECCIÓN TRABAJO - BENTO GRID */}
-                    <section id="trabajo" className="py-32 px-6 md:px-20 max-w-[1400px] mx-auto border-t border-white/5 scroll-mt-24">
-                        <div className="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-8">
-                            <h2 className="text-5xl md:text-7xl font-bold uppercase italic tracking-tighter">TRABAJOS.</h2>
-                            <div className="flex gap-3 glass p-1.5 rounded-2xl">
+                    {/* INDEX: TRABAJOS SELECCIONADOS */}
+                    <section id="index" className="py-40 px-6 max-w-7xl mx-auto scroll-mt-20">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 reveal">
+                            <h2 className="text-4xl md:text-6xl font-bold saga-font">INDEX.</h2>
+                            <div className="flex gap-8">
                                 {['Todos', 'Video', 'Diseño'].map(f => (
                                     <button 
                                         key={f} 
                                         onClick={() => setActiveFilter(f)} 
-                                        className={`px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${activeFilter === f ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
+                                        className={`text-[10px] font-bold uppercase tracking-[0.3em] transition-all ${activeFilter === f ? 'text-white border-b border-white pb-1' : 'text-white/20 hover:text-white'}`}
                                     >
                                         {f}
                                     </button>
@@ -350,24 +324,22 @@
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {filteredProjects.map((p) => (
                                 <div 
                                     key={p.id} 
                                     onClick={() => setSelectedProject(p)}
-                                    className={`group relative overflow-hidden rounded-[2.5rem] glass project-card cursor-none interactive ${p.span}`}
+                                    className={`group relative overflow-hidden rounded-[2rem] glass-card cursor-none reveal ${p.span}`}
                                 >
-                                    <div className="aspect-[16/10] md:aspect-auto md:h-[500px] overflow-hidden">
-                                        <img src={p.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100 group-hover:scale-110" alt={p.title} />
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
-                                    <div className="absolute bottom-8 left-10 right-10 flex justify-between items-end">
+                                    <img src={p.img} className="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                                    <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end">
                                         <div>
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2 block italic">{p.category}</span>
-                                            <h3 className="text-3xl font-bold uppercase tracking-tighter">{p.title}</h3>
+                                            <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/30 mb-2 block italic">{p.category}</span>
+                                            <h3 className="text-2xl md:text-3xl font-bold uppercase saga-font">{p.title}</h3>
                                         </div>
-                                        <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                            <i data-lucide="plus" className="w-6 h-6"></i>
+                                        <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                                            <Icon name="arrow-up-right" size={20} />
                                         </div>
                                     </div>
                                 </div>
@@ -375,29 +347,45 @@
                         </div>
                     </section>
 
-                    {/* MODAL DE PROYECTO (DASHBOARD) */}
-                    {selectedProject && (
+                    {/* MODAL DE CONTACTO */}
+                    {isContactOpen && (
                         <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
-                            <div className="absolute inset-0 bg-black/95 backdrop-blur-2xl" onClick={() => setSelectedProject(null)}></div>
-                            <div className="relative bg-[#0a0a0a] w-full max-w-6xl h-full max-h-[85vh] rounded-[3rem] border border-white/10 overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-500">
-                                <div className="p-8 md:p-12 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-                                    <div>
-                                        <span className="text-[10px] font-bold text-white/30 uppercase tracking-[0.4em] block mb-2">ARCHIVE_PROJECT</span>
-                                        <h2 className="text-4xl md:text-5xl font-bold uppercase italic tracking-tighter leading-none">{selectedProject.title}</h2>
-                                    </div>
-                                    <button onClick={() => setSelectedProject(null)} className="w-14 h-14 glass hover:bg-white hover:text-black rounded-2xl flex items-center justify-center transition-all">
-                                        <i data-lucide="x" className="w-6 h-6"></i>
+                            <div className="absolute inset-0 bg-black/95 backdrop-blur-xl animate-in fade-in" onClick={() => setIsContactOpen(false)}></div>
+                            <div className="relative bg-[#0d0d0e] w-full max-w-lg rounded-[2.5rem] border border-white/5 overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95">
+                                <div className="p-10 border-b border-white/5 flex justify-between items-center">
+                                    <h2 className="text-3xl font-bold italic saga-font">HABLEMOS.</h2>
+                                    <button onClick={() => setIsContactOpen(false)} className="hover:rotate-90 transition-all"><Icon name="x" size={24} /></button>
+                                </div>
+                                <div className="p-10 space-y-6">
+                                    <input type="text" className="w-full bg-transparent border-b border-white/10 py-4 outline-none focus:border-white transition-colors text-lg font-light" placeholder="Nombre" />
+                                    <input type="email" className="w-full bg-transparent border-b border-white/10 py-4 outline-none focus:border-white transition-colors text-lg font-light" placeholder="Email" />
+                                    <textarea className="w-full bg-transparent border-b border-white/10 py-4 h-24 outline-none focus:border-white transition-colors resize-none text-lg font-light" placeholder="Tu idea..."></textarea>
+                                    <button className="w-full py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all">Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* DASHBOARD DE PROYECTO */}
+                    {selectedProject && (
+                        <div className="fixed inset-0 z-[300] flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/98" onClick={() => setSelectedProject(null)}></div>
+                            <div className="relative bg-[#050505] w-full h-full overflow-hidden flex flex-col animate-in slide-in-from-bottom-10">
+                                <div className="p-8 md:p-12 border-b border-white/5 flex justify-between items-center">
+                                    <h2 className="text-3xl md:text-5xl font-bold italic saga-font">{selectedProject.title}</h2>
+                                    <button onClick={() => setSelectedProject(null)} className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                                        <Icon name="x" size={28} />
                                     </button>
                                 </div>
-                                <div className="flex-1 overflow-y-auto p-8 md:p-12 custom-scrollbar">
-                                    <p className="text-2xl text-white/50 mb-16 italic font-light leading-relaxed max-w-2xl">{selectedProject.description}</p>
+                                <div className="flex-1 overflow-y-auto p-8 md:p-20 custom-scrollbar">
+                                    <p className="text-2xl text-white/40 mb-20 italic font-light max-w-2xl">{selectedProject.description}</p>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {selectedProject.items.map((item, i) => (
-                                            <div key={i} onClick={() => setActiveMedia(item)} className="group relative aspect-video rounded-3xl overflow-hidden cursor-none interactive glass">
-                                                <img src={item.thumb || item.url} className="w-full h-full object-cover opacity-40 group-hover:opacity-100 transition-all duration-700" alt={item.title} />
+                                            <div key={i} onClick={() => setActiveMedia(item)} className="group relative aspect-video rounded-3xl overflow-hidden glass-card">
+                                                <img src={item.thumb || item.url} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-1000" alt="" />
                                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                                                     <div className="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center shadow-2xl scale-75 group-hover:scale-100 transition-all duration-500">
-                                                        {item.type === 'video' ? <i data-lucide="play" className="w-6 h-6 fill-current"></i> : <i data-lucide="maximize" className="w-6 h-6"></i>}
+                                                        {item.type === 'video' ? <Icon name="play" /> : <Icon name="maximize" />}
                                                     </div>
                                                 </div>
                                             </div>
@@ -410,34 +398,28 @@
 
                     {/* LIGHTBOX FINAL */}
                     {activeMedia && (
-                        <div className="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/98" onClick={() => setActiveMedia(null)}>
+                        <div className="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/99" onClick={() => setActiveMedia(null)}>
                             <div className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setActiveMedia(null)} className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black rounded-full flex items-center justify-center backdrop-blur-md transition-all">
-                                    <i data-lucide="x" className="w-6 h-6"></i>
+                                <button onClick={() => setActiveMedia(null)} className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black rounded-full flex items-center justify-center transition-all">
+                                    <Icon name="x" size={24} />
                                 </button>
                                 {activeMedia.type === 'video' ? (
                                     <video src={activeMedia.url} controls autoPlay className="w-full h-full bg-black object-contain" />
                                 ) : (
-                                    <img src={activeMedia.url} className="w-full h-full object-contain" alt={activeMedia.title} />
+                                    <img src={activeMedia.url} className="w-full h-full object-contain" alt="" />
                                 )}
                             </div>
                         </div>
                     )}
 
                     {/* FOOTER */}
-                    <footer id="contacto" className="py-40 px-6 md:px-20 border-t border-white/5 relative overflow-hidden bg-[#020202]">
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-20">
-                            <div>
-                                <h2 className="text-[14vw] md:text-[10vw] font-extrabold leading-[0.8] tracking-tighter uppercase italic">START<br/>LEGEND.</h2>
-                                <div className="mt-12 flex flex-wrap gap-12">
-                                    {['Instagram', 'LinkedIn', 'Behance'].map(social => (
-                                        <a key={social} href="#" className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 hover:text-white transition-all underline underline-offset-8 decoration-white/10">{social}</a>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-white/40 text-xl font-light italic mb-8 max-w-xs ml-auto">Elevamos tu narrativa digital al nivel de una saga épica.</p>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/10">© 2026 SAGA STUDIO STUDIO</p>
+                    <footer className="py-40 px-8 text-center">
+                        <div className="reveal">
+                            <h2 className="text-[12vw] font-black saga-font opacity-5 mb-12">SAGA STUDIO</h2>
+                            <div className="flex justify-center gap-12 text-[10px] font-bold uppercase tracking-[0.5em] text-white/20">
+                                <a href="#" className="hover:text-white transition-all">Instagram</a>
+                                <a href="#" className="hover:text-white transition-all">LinkedIn</a>
+                                <a href="#" className="hover:text-white transition-all">Email</a>
                             </div>
                         </div>
                     </footer>
