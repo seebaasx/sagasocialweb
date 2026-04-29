@@ -284,56 +284,63 @@
                         </div>
                     </section>
 
-                    {/* ESTUDIO: SECCIÓN ACTUALIZADA */}
-                    <section id="estudio" className="py-48 px-6 md:px-20 max-w-[1400px] mx-auto scroll-mt-24 relative">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center reveal">
-                            <div className="lg:col-span-6">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-4 block italic">NUESTRA HERENCIA</span>
-                                <h2 className="text-5xl md:text-7xl font-bold uppercase italic tracking-tighter leading-[0.9] mb-10 saga-font">
-                                    EL <span className="outline-text">ORIGEN</span> <br/> DE LA SAGA.
-                                </h2>
-                                <p className="text-xl md:text-2xl font-light leading-relaxed italic text-white/60 max-w-2xl mb-12">
-                                    SAGA es la <span className="text-white font-medium not-italic">sinergia genética</span> de Sebastián y Gabriela Acevedo. Una herencia de 10 años fusionando visión fraternal y estrategia para crear <span className="text-white font-medium not-italic">narrativas visuales</span> que no solo se consumen, sino que se recuerdan.
-                                </p>
-                                <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/20 border-t border-white/10 pt-8 max-w-sm">
-                                    <div className="w-12 h-px bg-white/10"></div>
-                                    +10 Años de Trayectoria Sincronizada
-                                </div>
-                            </div>
-                            
-                            <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="glass-card p-10 rounded-[2.5rem] md:col-span-2 group">
-                                    <div className="flex justify-between items-start mb-12">
-                                        <div className="text-white/40 group-hover:text-white transition-colors">
-                                            <Icon name="history" size={32} />
+                    {/* ESTUDIO: SECCIÓN VISUAL ACTUALIZADA */}
+                    <section id="estudio" className="py-48 px-6 md:px-20 max-w-7xl mx-auto scroll-mt-24">
+                        <div className="reveal">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                                
+                                {/* Columna de Texto */}
+                                <div className="lg:col-span-7">
+                                    <h2 className="text-4xl md:text-6xl font-bold mb-12 saga-font uppercase italic opacity-20 tracking-tighter">EL ORIGEN.</h2>
+                                    <p className="text-2xl md:text-4xl font-light leading-snug italic text-white/60 mb-12">
+                                        SAGA es la <span className="text-white font-medium not-italic border-b border-white/20">sinergia genética</span> de Sebastián y Gabriela Acevedo. 
+                                    </p>
+                                    <p className="text-xl md:text-2xl font-light leading-relaxed text-white/40 italic max-w-2xl mb-12">
+                                        Una herencia de 10 años fusionando visión fraternal y estrategia para crear <span className="text-white">narrativas visuales</span> que no solo se consumen, sino que se recuerdan.
+                                    </p>
+                                    
+                                    <div className="grid grid-cols-2 gap-8 border-t border-white/5 pt-12">
+                                        <div>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 block mb-2">Trayectoria</span>
+                                            <p className="text-lg uppercase saga-font italic">+10 Años</p>
                                         </div>
-                                        <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/10 group-hover:text-white/40 transition-colors italic">EST. 2016</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold uppercase mb-3 tracking-tighter italic">Legado</h3>
-                                        <p className="text-white/40 text-sm italic leading-relaxed">Diez años de evolución constante. Una década redefiniendo la estética y la estrategia digital.</p>
-                                    </div>
-                                </div>
-
-                                <div className="glass-card p-10 rounded-[2.5rem] group">
-                                    <div className="text-white/40 group-hover:text-white transition-colors mb-10">
-                                        <Icon name="git-branch" size={28} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold uppercase mb-2 tracking-tighter italic">Sintonía</h3>
-                                        <p className="text-white/40 text-xs italic leading-relaxed">Dos visiones, una misma genética creativa. Sincronía absoluta en cada frame.</p>
+                                        <div>
+                                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 block mb-2">Especialidad</span>
+                                            <p className="text-lg uppercase saga-font italic">Management</p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="glass-card p-10 rounded-[2.5rem] group mt-0 md:mt-12">
-                                    <div className="text-white/40 group-hover:text-white transition-colors mb-10">
-                                        <Icon name="zap" size={28} />
+                                {/* Columna Visual: Dos Marcos para Fotos */}
+                                <div className="lg:col-span-5 relative">
+                                    <div className="relative grid grid-cols-2 gap-4">
+                                        {/* Foto Sebastián */}
+                                        <div className="relative group overflow-hidden rounded-2xl aspect-[3/4] translate-y-8 transition-all duration-700 hover:-translate-y-2 glass-card">
+                                            <img 
+                                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" 
+                                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
+                                                alt="Sebastián Acevedo"
+                                            />
+                                            <div className="absolute bottom-4 left-4">
+                                                <span className="text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white/70">Sebastián</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Foto Gabriela */}
+                                        <div className="relative group overflow-hidden rounded-2xl aspect-[3/4] -translate-y-8 transition-all duration-700 hover:-translate-y-12 glass-card">
+                                            <img 
+                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80" 
+                                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
+                                                alt="Gabriela Acevedo"
+                                            />
+                                            <div className="absolute bottom-4 left-4">
+                                                <span className="text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white/70">Gabriela</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold uppercase mb-2 tracking-tighter italic">Impacto</h3>
-                                        <p className="text-white/40 text-xs italic leading-relaxed">Contenido diseñado no para el algoritmo de hoy, sino para perdurar en la memoria.</p>
-                                    </div>
+                                    <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
                                 </div>
+
                             </div>
                         </div>
                     </section>
