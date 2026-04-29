@@ -3,63 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saga Media Studio | Visual Storyteller</title>
+    <title>SAGA MEDIA STUDIO | Digital Archive</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&family=Space+Mono&display=swap" rel="stylesheet">
     
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #0e0e0e;
-            margin: 0;
-            overflow-x: hidden;
-            color: #f0f0f0;
-        }
+        :root { --bg: #0a0a0a; --accent: #ffffff; }
+        body { background-color: var(--bg); color: #f0f0f0; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        h1, h2, h3, .syne { font-family: 'Syne', sans-serif; }
+        .mono { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; }
 
-        h1, h2, h3, h4, .syne { font-family: 'Syne', sans-serif; }
-        
-        /* Efecto Outline solo para SAGA */
+        /* Efecto SAGA */
         .outline-text {
-            -webkit-text-stroke: 1.5px rgba(255,255,255,0.4);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
             color: transparent;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.5s ease;
         }
-        .outline-text:hover {
-            color: white;
-            -webkit-text-stroke: 1.5px transparent;
+        .outline-text:hover { color: white; -webkit-text-stroke: 1px transparent; }
+
+        /* Tarjetas de Trabajo Modernas */
+        .work-card {
+            position: relative;
+            background: #111;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .work-card:hover { transform: translateY(-10px); }
+        .work-card img {
+            transition: transform 0.8s ease, filter 0.5s ease;
+            filter: grayscale(100%) brightness(0.7);
+        }
+        .work-card:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
+
+        /* Cursor */
+        #cursor {
+            position: fixed; width: 12px; height: 12px; background: white;
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            mix-blend-difference: difference; left: -6px; top: -6px;
+            will-change: transform; transition: transform 0.1s ease-out;
         }
 
-        /* Cursor corregido y centrado */
-        #custom-cursor {
-            position: fixed;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-difference: difference;
-            left: -8px;
-            top: -8px;
-            will-change: transform;
-            display: none;
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
         }
-
-        @media (min-width: 768px) {
-            #custom-cursor { display: block; }
-            .cursor-hidden { cursor: none !important; }
-        }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
         html { scroll-behavior: smooth; }
     </style>
 </head>
-<body class="cursor-hidden">
-    <div id="custom-cursor"></div>
+<body class="md:cursor-none">
+    <div id="cursor"></div>
     <div id="root"></div>
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -68,128 +64,72 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-
-        const Icon = ({ name, size = 24, className = "" }) => {
-            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
-        };
+        const { useState, useEffect } = React;
 
         const App = () => {
-            const [activeFilter, setActiveFilter] = useState('Todos');
-            const [isLoaded, setIsLoaded] = useState(false);
-            const [selectedProject, setSelectedProject] = useState(null);
-            const [activeMedia, setActiveMedia] = useState(null);
+            const [filter, setFilter] = useState('Todos');
+            const [selected, setSelected] = useState(null);
 
             useEffect(() => {
-                setIsLoaded(true);
-                const cursor = document.getElementById('custom-cursor');
-                const moveCursor = (e) => {
-                    if (cursor) {
-                        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                    }
+                const cursor = document.getElementById('cursor');
+                const move = (e) => {
+                    if(cursor) cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
                 };
-                window.addEventListener('mousemove', moveCursor);
+                window.addEventListener('mousemove', move);
                 lucide.createIcons();
-                return () => window.removeEventListener('mousemove', moveCursor);
+                return () => window.removeEventListener('mousemove', move);
             }, []);
 
-            useEffect(() => {
-                lucide.createIcons();
-            }, [activeFilter, selectedProject, activeMedia]);
+            useEffect(() => { lucide.createIcons(); }, [filter, selected]);
 
             const projects = [
-                { 
-                    id: 1, 
-                    title: "URBAN MOTION", 
-                    category: "Video", 
-                    img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80", 
-                    tag: "Storytelling",
-                    description: "Exploración visual urbana mediante edición rítmica y narrativa cinética.",
-                    items: [
-                        { type: 'video', url: "https://www.w3schools.com/html/mov_bbb.mp4", thumb: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80", title: "Corte Principal" },
-                        { type: 'video', url: "https://www.w3schools.com/html/movie.mp4", thumb: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=800&q=80", title: "Detrás de Cámaras" }
-                    ]
-                },
-                { 
-                    id: 2, 
-                    title: "DIGITAL IDENTITY", 
-                    category: "Diseño", 
-                    img: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=1200&q=80", 
-                    tag: "Branding",
-                    description: "Identidad visual minimalista diseñada para el impacto en la era de la atención rápida.",
-                    items: [
-                        { type: 'image', url: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=1200&q=80", title: "Concepto Visual" },
-                        { type: 'image', url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", title: "Guía de Estilo" }
-                    ]
-                }
+                { id: 1, title: "URBAN MOTION", cat: "Video", tag: "Creative Edit", img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800", desc: "Narrativa urbana de alto impacto.", items: [{type:'video', url: "https://www.w3schools.com/html/mov_bbb.mp4"}] },
+                { id: 2, title: "NEO BRAND", cat: "Diseño", tag: "Identity", img: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=800", desc: "Sistemas visuales minimalistas.", items: [{type:'image', url: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=1200"}] },
+                { id: 3, title: "SONIC VISUALS", cat: "Video", tag: "Music Video", img: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=800", desc: "Sincronía sonora y visual.", items: [{type:'video', url: "https://www.w3schools.com/html/movie.mp4"}] }
             ];
 
-            const filteredProjects = activeFilter === 'Todos' ? projects : projects.filter(p => p.category === activeFilter);
+            const filtered = filter === 'Todos' ? projects : projects.filter(p => p.cat === filter);
 
             return (
-                <div className="min-h-screen">
-                    <div className="fixed inset-0 z-[100] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-
-                    {/* Navbar */}
-                    <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[150] flex items-center gap-2 p-1.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full">
-                        {['Inicio', 'Trabajo', 'Contacto'].map((item) => (
-                            <a key={item} href={`#${item.toLowerCase()}`} className="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/10 transition-all">
-                                {item}
-                            </a>
-                        ))}
-                    </nav>
-
-                    {/* Hero: Título simplificado "SAGA MEDIA STUDIO" */}
-                    <section id="inicio" className="h-screen flex items-center justify-center px-6 md:px-20 text-center">
-                        <div className={`max-w-7xl w-full transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-                            <span className="inline-block text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-8 border-l-2 border-white/20 pl-4">
-                                Creative Agency · Est. 2026
-                            </span>
-                            <h1 className="text-[12vw] md:text-[10vw] font-black leading-[0.8] tracking-tighter uppercase hero-title">
-                                <span className="outline-text">SAGA</span> <br />
-                                MEDIA STUDIO.
+                <main>
+                    {/* Hero */}
+                    <section className="h-screen flex items-center justify-center px-6">
+                        <div className="text-center">
+                            <p className="mono mb-6 opacity-40">// digital archive _ 2026</p>
+                            <h1 className="text-[12vw] md:text-[10vw] font-black uppercase leading-[0.8] mb-12">
+                                <span className="outline-text">SAGA</span> <br /> MEDIA STUDIO.
                             </h1>
-                            <div className="mt-12 flex flex-col md:flex-row items-center justify-center md:items-center gap-10">
-                                <p className="text-white/40 max-w-sm text-lg font-light leading-relaxed italic">
-                                    Transformando visiones en impacto digital mediante narrativa visual de alto rendimiento.
-                                </p>
-                                <a href="#trabajo" className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] border border-white/20 px-8 py-5 rounded-full hover:bg-white hover:text-black transition-all">
-                                    Explorar Trabajos <Icon name="move-up-right" size={16} />
-                                </a>
-                            </div>
+                            <a href="#work" className="mono border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all inline-flex items-center gap-3">
+                                ver trabajos <i data-lucide="arrow-down" style={{width:14}}></i>
+                            </a>
                         </div>
                     </section>
 
-                    {/* Sección Trabajos */}
-                    <section id="trabajo" className="py-32 px-6 md:px-20 bg-[#0a0a0a]">
+                    {/* Works Grid */}
+                    <section id="work" className="py-32 px-6 md:px-20">
                         <div className="max-w-7xl mx-auto">
-                            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-                                <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic">TRABAJOS.</h2>
-                                <div className="flex gap-4">
+                            <div className="flex justify-between items-end mb-20 border-b border-white/10 pb-10">
+                                <h2 className="text-5xl font-bold italic uppercase">Proyectos.</h2>
+                                <div className="flex gap-6 mono">
                                     {['Todos', 'Video', 'Diseño'].map(f => (
-                                        <button key={f} onClick={() => setActiveFilter(f)} className={`text-[10px] font-bold uppercase tracking-widest transition-all ${activeFilter === f ? 'text-white underline underline-offset-8' : 'text-white/30 hover:text-white'}`}>
-                                            {f}
-                                        </button>
+                                        <button key={f} onClick={() => setFilter(f)} className={`${filter === f ? 'text-white underline underline-offset-8' : 'opacity-30 hover:opacity-100'}`}>{f}</button>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                                {filteredProjects.map((p, idx) => (
-                                    <div key={p.id} onClick={() => { setSelectedProject(p); document.body.style.overflow = 'hidden'; }} className={`group relative cursor-pointer ${idx % 2 !== 0 ? 'md:mt-32' : ''}`}>
-                                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-neutral-900 shadow-2xl">
-                                            <img src={p.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-90 group-hover:opacity-100" alt={p.title} />
-                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <div className="w-24 h-24 bg-white text-black rounded-full flex items-center justify-center scale-0 group-hover:scale-100 transition-all font-black text-[10px] uppercase tracking-widest">Explorar</div>
-                                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                {filtered.map(p => (
+                                    <div key={p.id} className="work-card group cursor-none" onClick={() => { setSelected(p); document.body.style.overflow='hidden'; }}>
+                                        <div className="aspect-[16/10] overflow-hidden">
+                                            <img src={p.img} className="w-full h-full object-cover" />
                                         </div>
-                                        <div className="mt-10 flex justify-between items-start text-left">
+                                        <div className="p-8 flex justify-between items-center">
                                             <div>
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-2 block">{p.category} / {p.tag}</span>
-                                                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:text-white/70 transition-colors">{p.title}</h3>
+                                                <p className="mono opacity-40 mb-2">{p.cat} / {p.tag}</p>
+                                                <h3 className="text-3xl font-black">{p.title}</h3>
                                             </div>
-                                            <div className="p-4 bg-white/5 rounded-2xl group-hover:bg-white group-hover:text-black transition-all">
-                                                <Icon name="arrow-up-right" size={20} />
+                                            <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                                                <i data-lucide="plus"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -198,28 +138,35 @@
                         </div>
                     </section>
 
-                    {/* Modal y Lightbox se mantienen igual... */}
-                    
-                    {/* FOOTER: HABLEMOS corregido */}
-                    <footer id="contacto" className="py-40 px-6 md:px-20 bg-[#0e0e0e] border-t border-white/5">
-                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-20">
-                            <div className="text-left">
-                                <h4 className="syne font-bold uppercase tracking-widest text-white/90 text-2xl mb-8">HABLEMOS.</h4>
-                                <p className="text-white/40 text-xl font-light italic mt-2">Disponible para nuevos retos creativos.</p>
-                            </div>
-                            <div className="text-right">
-                                <div className="flex justify-end gap-10 mb-12">
-                                    {['instagram', 'linkedin', 'twitter'].map(social => (
-                                        <a key={social} href="#" className="text-white/20 hover:text-white transition-all transform hover:scale-110">
-                                            <Icon name={social} size={28} />
-                                        </a>
+                    {/* Project Drawer / Modal */}
+                    {selected && (
+                        <div className="fixed inset-0 z-[1000] flex justify-end">
+                            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => { setSelected(null); document.body.style.overflow='auto'; }}></div>
+                            <div className="relative w-full md:w-[60%] lg:w-[45%] h-full glass-panel p-10 md:p-20 overflow-y-auto animate-in slide-in-from-right duration-500">
+                                <button onClick={() => { setSelected(null); document.body.style.overflow='auto'; }} className="mono mb-10 flex items-center gap-2 hover:opacity-50"><i data-lucide="arrow-left" style={{width:14}}></i> cerrar</button>
+                                <p className="mono opacity-40 mb-4">{selected.cat} _ case study</p>
+                                <h2 className="text-6xl font-black uppercase mb-8 italic">{selected.title}</h2>
+                                <p className="text-xl text-white/60 font-light leading-relaxed mb-16">{selected.desc}</p>
+                                
+                                <div className="space-y-10">
+                                    {selected.items.map((item, i) => (
+                                        <div key={i} className="rounded-3xl overflow-hidden border border-white/10 bg-white/5">
+                                            {item.type === 'video' ? (
+                                                <video src={item.url} controls className="w-full" />
+                                            ) : (
+                                                <img src={item.url} className="w-full" />
+                                            )}
+                                        </div>
                                     ))}
                                 </div>
-                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10">© 2026 SagasocialmediaStudio</p>
                             </div>
                         </div>
+                    )}
+
+                    <footer id="contacto" className="py-20 text-center border-t border-white/5">
+                        <p className="mono opacity-20">© 2026 SAGA MEDIA STUDIO</p>
                     </footer>
-                </div>
+                </main>
             );
         };
 
