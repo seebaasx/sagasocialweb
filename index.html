@@ -3,83 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGASOCIAL STUDIO | Visual Storyteller</title>
+    <title>Saga Social Media Studio | Visual Storyteller</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #0e0e0e; color: #f0f0f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .hero-title { font-family: 'Archivo Black', sans-serif; line-height: 0.8; letter-spacing: -0.05em; }
-        .outline-text { -webkit-text-stroke: 1.5px rgba(255,255,255,0.4); color: transparent; transition: all 0.5s; }
-        .outline-text:hover { color: white; -webkit-text-stroke: 1.5px transparent; }
-        .noise { position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.03; background-image: url('https://grainy-gradients.vercel.app/noise.svg'); mix-blend-mode: overlay; }
-        .cursor { position: fixed; width: 16px; height: 16px; background: white; border-radius: 50%; z-index: 9999; pointer-events: none; mix-blend-mode: difference; transition: transform 0.1s linear; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0e0e0e;
+            margin: 0;
+            overflow-x: hidden;
+            color: #f0f0f0;
+        }
+
+        h1, h2, h3, .syne { font-family: 'Syne', sans-serif; }
+        
+        .outline-text {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+            color: transparent;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .outline-text:hover {
+            color: white;
+            -webkit-text-stroke: 1px transparent;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-difference: difference;
+            left: -8px;
+            top: -8px;
+            will-change: transform;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            #custom-cursor { display: block; }
+            .cursor-hidden { cursor: none !important; }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        html { scroll-behavior: smooth; }
     </style>
 </head>
-<body>
-    <div class="noise"></div>
-    <div class="cursor" id="cursor"></div>
+<body class="cursor-hidden">
+    <div id="custom-cursor"></div>
+    <div id="root"></div>
 
-    <nav class="fixed top-8 left-1/2 -translate-x-1/2 z-[150] flex items-center gap-2 p-1.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full">
-        <a href="#inicio" class="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-all">Inicio</a>
-        <a href="#trabajo" class="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-all">Trabajo</a>
-        <a href="#contacto" class="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white transition-all">Contacto</a>
-    </nav>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    <section id="inicio" class="relative h-screen flex flex-col justify-center px-6 md:px-20">
-        <div class="max-w-7xl w-full mx-auto">
-            <span class="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8 block">Social Media · Video · Design</span>
-            <h1 class="text-[15vw] md:text-[11vw] hero-title uppercase">
-                VISUAL <br>
-                <span class="outline-text italic">STORY</span>TELLER.
-            </h1>
-            <div class="mt-12 flex flex-col md:flex-row gap-8 items-start">
-                <p class="text-white/50 max-w-sm text-lg font-light leading-relaxed">Transformando la visión de marcas contemporáneas en realidades digitales.</p>
-                <a href="#trabajo" class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest border border-white/20 px-8 py-5 rounded-full hover:bg-white hover:text-black transition-all">
-                    Explorar <i data-lucide="move-up-right" class="w-4 h-4"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <section id="trabajo" class="py-32 px-6 md:px-20 bg-[#0a0a0a]">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-6xl font-black uppercase italic mb-20 tracking-tighter">TRABAJOS.</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
-                <div class="group cursor-pointer">
-                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-900">
-                        <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
-                    </div>
-                    <h3 class="mt-8 text-3xl font-black uppercase tracking-tighter">URBAN MOTION</h3>
+        const Icon = ({ name, size = 24, className = "" }) => {
+            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        const App = () => {
+            const [activeFilter, setActiveFilter] = useState('Todos');
+            const [isLoaded, setIsLoaded] = useState(false);
+            const [selectedProject, setSelectedProject] = useState(null);
+            const [activeMedia, setActiveMedia] = useState(null);
+
+            useEffect(() => {
+                setIsLoaded(true);
+                const cursor = document.getElementById('custom-cursor');
+                const moveCursor = (e) => {
+                    if (cursor) {
+                        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+                    }
+                };
+                window.addEventListener('mousemove', moveCursor);
+                lucide.createIcons();
+                return () => window.removeEventListener('mousemove', moveCursor);
+            }, []);
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [activeFilter, selectedProject, activeMedia]);
+
+            const projects = [
+                { 
+                    id: 1, 
+                    title: "URBAN MOTION", 
+                    category: "Video", 
+                    img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80", 
+                    tag: "Storytelling",
+                    description: "Exploración visual urbana mediante edición rítmica y narrativa cinética.",
+                    items: [
+                        { type: 'video', url: "https://www.w3schools.com/html/mov_bbb.mp4", thumb: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80", title: "Corte Principal" },
+                        { type: 'video', url: "https://www.w3schools.com/html/movie.mp4", thumb: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=800&q=80", title: "Detrás de Cámaras" }
+                    ]
+                },
+                { 
+                    id: 2, 
+                    title: "DIGITAL IDENTITY", 
+                    category: "Diseño", 
+                    img: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=1200&q=80", 
+                    tag: "Branding",
+                    description: "Identidad visual minimalista diseñada para el impacto en la era de la atención rápida.",
+                    items: [
+                        { type: 'image', url: "https://images.unsplash.com/photo-1634942537034-2531766767d7?w=1200&q=80", title: "Concepto Visual" },
+                        { type: 'image', url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", title: "Guía de Estilo" }
+                    ]
+                }
+            ];
+
+            const filteredProjects = activeFilter === 'Todos' ? projects : projects.filter(p => p.category === activeFilter);
+
+            return (
+                <div className="min-h-screen">
+                    <div className="fixed inset-0 z-[100] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+
+                    <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[150] flex items-center gap-2 p-1.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full">
+                        {['Inicio', 'Trabajo', 'Contacto'].map((item) => (
+                            <a key={item} href={`#${item.toLowerCase()}`} className="px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/10 transition-all">
+                                {item}
+                            </a>
+                        ))}
+                    </nav>
+
+                    {/* HERO ACTUALIZADO */}
+                    <section id="inicio" className="h-screen flex items-center justify-center px-6 md:px-20 text-center md:text-left">
+                        <div className={`max-w-7xl w-full transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                            <span className="inline-block text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-8 border-l-2 border-white/20 pl-4">
+                                Creative Agency · Est. 2026
+                            </span>
+                            <h1 className="text-[12vw] md:text-[9vw] font-black leading-[0.85] tracking-tighter uppercase">
+                                SAGA SOCIAL <br />
+                                <span className="italic outline-text">MEDIA STUDIO</span>.
+                            </h1>
+                            <div className="mt-12 flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-10">
+                                <p className="text-white/40 max-w-sm text-lg font-light leading-relaxed italic">
+                                    Transformando visiones en impacto digital mediante narrativa visual de alto rendimiento.
+                                </p>
+                                <a href="#trabajo" className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.2em] border border-white/20 px-8 py-5 rounded-full hover:bg-white hover:text-black transition-all">
+                                    Explorar Trabajos <Icon name="move-up-right" size={16} />
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="trabajo" className="py-32 px-6 md:px-20 bg-[#0a0a0a]">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+                                <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter italic">TRABAJOS.</h2>
+                                <div className="flex gap-4">
+                                    {['Todos', 'Video', 'Diseño'].map(f => (
+                                        <button key={f} onClick={() => setActiveFilter(f)} className={`text-[10px] font-bold uppercase tracking-widest transition-all ${activeFilter === f ? 'text-white underline underline-offset-8' : 'text-white/30 hover:text-white'}`}>
+                                            {f}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                                {filteredProjects.map((p, idx) => (
+                                    <div key={p.id} onClick={() => { setSelectedProject(p); document.body.style.overflow = 'hidden'; }} className={`group relative cursor-pointer ${idx % 2 !== 0 ? 'md:mt-32' : ''}`}>
+                                        <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] bg-neutral-900 shadow-2xl">
+                                            <img src={p.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-90 group-hover:opacity-100" alt={p.title} />
+                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <div className="w-24 h-24 bg-white text-black rounded-full flex items-center justify-center scale-0 group-hover:scale-100 transition-all font-black text-[10px] uppercase tracking-widest">Explorar</div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-10 flex justify-between items-start text-left">
+                                            <div>
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-2 block">{p.category} / {p.tag}</span>
+                                                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:text-white/70 transition-colors">{p.title}</h3>
+                                            </div>
+                                            <div className="p-4 bg-white/5 rounded-2xl group-hover:bg-white group-hover:text-black transition-all">
+                                                <Icon name="arrow-up-right" size={20} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {selectedProject && (
+                        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+                            <div className="absolute inset-0 bg-[#0e0e0e]/95 backdrop-blur-3xl" onClick={() => { setSelectedProject(null); document.body.style.overflow = 'auto'; }}></div>
+                            <div className="relative bg-[#151515] w-full max-w-7xl h-full max-h-[88vh] rounded-[3rem] shadow-2xl border border-white/5 overflow-hidden flex flex-col">
+                                <div className="p-8 md:p-12 flex justify-between items-center bg-white/5 border-b border-white/5">
+                                    <div className="text-left">
+                                        <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] mb-2 block">{selectedProject.category}</span>
+                                        <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none">{selectedProject.title}</h2>
+                                    </div>
+                                    <button onClick={() => { setSelectedProject(null); document.body.style.overflow = 'auto'; }} className="w-14 h-14 bg-white/5 hover:bg-white hover:text-black rounded-full flex items-center justify-center transition-all">
+                                        <Icon name="x" size={28} />
+                                    </button>
+                                </div>
+                                <div className="flex-1 overflow-y-auto p-8 md:p-12 custom-scrollbar text-left">
+                                    <p className="text-2xl text-white/70 mb-16 italic font-light max-w-3xl leading-relaxed">{selectedProject.description}</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        {selectedProject.items.map((item, idx) => (
+                                            <div key={idx} onClick={() => setActiveMedia(item)} className="group relative aspect-video rounded-[2rem] overflow-hidden cursor-pointer bg-white/5 shadow-lg">
+                                                <img src={item.thumb || item.url} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" alt={item.title} />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                                                    <div className="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-all">
+                                                        {item.type === 'video' ? <Icon name="play" size={24} /> : <Icon name="maximize-2" size={24} />}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeMedia && (
+                        <div className="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/98" onClick={() => setActiveMedia(null)}>
+                            <div className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setActiveMedia(null)} className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black rounded-full flex items-center justify-center transition-all">
+                                    <Icon name="x" size={24} />
+                                </button>
+                                {activeMedia.type === 'video' ? (
+                                    <video src={activeMedia.url} controls autoPlay className="w-full h-full bg-black object-contain" />
+                                ) : (
+                                    <img src={activeMedia.url} className="w-full h-full object-contain" alt={activeMedia.title} />
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    <footer id="contacto" className="py-40 px-6 md:px-20 bg-[#0e0e0e] border-t border-white/5">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-20">
+                            <div className="text-left">
+                                <h2 className="text-[12vw] md:text-[8vw] font-black leading-none tracking-tighter uppercase italic">HABLEMOS.</h2>
+                                <p className="text-white/40 text-xl font-light italic mt-8">Disponible para nuevos retos creativos.</p>
+                            </div>
+                            <div className="text-right">
+                                <div className="flex justify-end gap-10 mb-12">
+                                    {['instagram', 'linkedin', 'twitter'].map(social => (
+                                        <a key={social} href="#" className="text-white/20 hover:text-white transition-all transform hover:scale-110">
+                                            <Icon name={social} size={28} />
+                                        </a>
+                                    ))}
+                                </div>
+                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10">© 2026 SagasocialmediaStudio</p>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
-                <div class="group cursor-pointer md:mt-32">
-                    <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-900">
-                        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700">
-                    </div>
-                    <h3 class="mt-8 text-3xl font-black uppercase tracking-tighter">DIGITAL PULSE</h3>
-                </div>
-            </div>
-        </div>
-    </section>
+            );
+        };
 
-    <footer id="contacto" class="py-40 px-6 md:px-20 border-t border-white/5">
-        <h2 class="text-[12vw] hero-title italic opacity-20">READY?</h2>
-        <div class="mt-12 flex gap-12">
-            <a href="#" class="text-xs font-black uppercase tracking-widest text-white/30 hover:text-white">Instagram</a>
-            <a href="#" class="text-xs font-black uppercase tracking-widest text-white/30 hover:text-white">Email</a>
-        </div>
-    </footer>
-
-    <script>
-        // Inicializar Iconos
-        lucide.createIcons();
-
-        // Cursor lógico
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
