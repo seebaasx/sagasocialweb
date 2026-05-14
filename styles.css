@@ -386,7 +386,7 @@ nav.solid .nav-links a {
 .hero-logo-panel {
   position: relative;
   z-index: 2;
-  width: min(850px, 100%);
+  width: min(2000px, 100%);
   aspect-ratio: 1/1;
   display: grid;
   place-items: center;
@@ -418,7 +418,7 @@ nav.solid .nav-links a {
 .hero-logo-image {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 34px 90px rgba(248,37,52,.28));
+  filter: drop-shadow(0 55px 90px rgba(248,37,52,.28));
   transition: transform .25s ease, filter .25s ease;
 }
 
