@@ -1,465 +1,1006 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGA | Social Media Studio</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #0a0a0b;
-            --accent: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SAGA Social Media Studio — Estrategia, contenido y comunidad para marcas que quieren dejar huella. Fundado por Sebastián y Gabriela Acevedo.">
+<title>SAGA — Social Media Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────
+   VARIABLES & RESET
+───────────────────────────────────────────── */
+:root {
+  --red:   #F82534;
+  --black: #0B0B0B;
+  --white: #F4F2EE;
+  --g1:    #131313;
+  --g2:    #1C1C1C;
+  --g3:    #252525;
+  --muted: rgba(244,242,238,.38);
+  --px: clamp(20px, 5vw, 72px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:none}
+a{cursor:none}
 
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg);
-            margin: 0;
-            overflow-x: hidden;
-            color: #fff;
-            -webkit-font-smoothing: antialiased;
-        }
+/* ─────────────────────────────────────────────
+   CURSOR
+───────────────────────────────────────────── */
+.cur{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s}
+.cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid var(--red);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.55;transition:width .25s,height .25s}
+@media(hover:none){.cur,.cur-ring{display:none}body,button,a,.svc-card{cursor:auto}}
 
-        h1, h2, h3, .saga-font { 
-            font-family: 'Syne', sans-serif; 
-            letter-spacing: -0.03em;
-        }
+/* ─────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px var(--px);
+  transition:background .4s,border-bottom .4s;
+}
+nav.solid{background:rgba(11,11,11,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(244,242,238,.06)}
 
-        .outline-text {
-            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
-            color: transparent;
-            transition: all 0.5s ease;
-        }
-        
-        #cursor {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s ease-out, opacity 0.3s;
-            left: 0;
-            top: 0;
-        }
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+.nav-logo-svg{height:36px;width:auto}
+.nav-brand{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;letter-spacing:.28em;color:var(--white);text-transform:uppercase;opacity:.6}
 
-        .grain {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            pointer-events: none;
-            opacity: 0.02;
-            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-        }
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--white);text-decoration:none;opacity:.42;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.nav-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--black);background:var(--red);border:none;padding:11px 28px;transition:background .2s,transform .15s}
+.nav-btn:hover{background:#d41e2c;transform:translateY(-1px)}
 
-        @keyframes kenburns {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-        .animate-kenburns {
-            animation: kenburns 10s ease-out forwards;
-        }
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            transition: all 0.5s ease;
-        }
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
+/* mobile drawer */
+.mob-drawer{display:none;position:fixed;inset:0;z-index:290;background:var(--black);flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mob-drawer.open{display:flex}
+.mob-drawer a,.mob-drawer button{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:44px;letter-spacing:.04em;text-transform:uppercase;color:var(--white);text-decoration:none;background:none;border:none;opacity:.4;transition:opacity .2s,color .2s}
+.mob-drawer a:hover,.mob-drawer button:hover{opacity:1;color:var(--red)}
+.mob-cta-mob{font-size:18px!important;color:var(--black)!important;background:var(--red);opacity:1!important;padding:16px 48px}
+.mob-cta-mob:hover{background:#d41e2c!important}
 
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
+.hero{min-height:100svh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
 
-        html { scroll-behavior: smooth; }
+.hero-left{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 60px 96px var(--px);position:relative;z-index:2;
+}
+.hero-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  letter-spacing:.34em;text-transform:uppercase;color:var(--red);
+  margin-bottom:28px;opacity:0;animation:up .8s .15s forwards;
+}
+.hero-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:clamp(62px,8.5vw,126px);line-height:.86;
+  letter-spacing:-.015em;text-transform:uppercase;color:var(--white);
+  opacity:0;animation:up .8s .3s forwards;
+}
+.hero-title em{font-style:normal;color:var(--red)}
+.hero-sub{
+  font-size:15px;line-height:1.82;color:var(--muted);
+  max-width:360px;margin-top:36px;
+  opacity:0;animation:up .8s .45s forwards;
+}
+.hero-actions{
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+  margin-top:48px;opacity:0;animation:up .8s .6s forwards;
+}
+.btn-red{
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--black);background:var(--red);
+  padding:16px 40px;border:none;display:inline-block;text-decoration:none;
+  transition:background .2s,transform .15s;
+}
+.btn-red:hover{background:#d41e2c;transform:translateY(-2px)}
+.btn-ghost{
+  font-family:'Barlow Condensed',sans-serif;font-weight:400;
+  font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--white);text-decoration:none;opacity:.4;
+  display:flex;align-items:center;gap:8px;transition:opacity .2s;
+}
+.btn-ghost:hover{opacity:1}
+.btn-ghost::after{content:'→'}
 
-        [data-lucide] {
-            display: inline-block;
-            vertical-align: middle;
-        }
-    </style>
+/* Hero right — red panel with big logo */
+.hero-right{
+  background:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hero-logo-big{
+  width:min(380px,72%);
+  opacity:0;animation:fade .9s .35s forwards;
+  filter:brightness(0) invert(1);/* white logo on red */
+}
+/* subtle grain */
+.hero-right::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-scroll-hint{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;
+  letter-spacing:.28em;text-transform:uppercase;color:rgba(244,242,238,.3);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;animation:fade 1s 1.2s forwards;
+}
+.hero-scroll-hint span{width:1px;height:40px;background:rgba(244,242,238,.2);animation:scrollLine 1.8s 1.4s infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ─────────────────────────────────────────────
+   TICKER
+───────────────────────────────────────────── */
+.ticker{background:var(--red);padding:13px 0;overflow:hidden;white-space:nowrap;user-select:none}
+.ticker-track{display:inline-flex;animation:ticker 24s linear infinite}
+.ticker-item{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--black);padding:0 32px}
+.ticker-dot{color:rgba(0,0,0,.35);font-size:9px;align-self:center}
+
+/* ─────────────────────────────────────────────
+   NOSOTROS
+───────────────────────────────────────────── */
+.nosotros{
+  padding:120px var(--px);
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+
+/* Text side */
+.nos-text .section-label{margin-bottom:16px}
+.nos-text .section-title{margin-bottom:28px}
+.nos-text > p{font-size:15px;line-height:1.85;color:var(--muted);max-width:400px;margin-bottom:44px}
+
+.nos-founders-list{display:flex;flex-direction:column;gap:0}
+.nos-founder-item{
+  display:flex;align-items:flex-start;gap:18px;
+  padding:22px 0;border-top:1px solid rgba(244,242,238,.07);
+}
+.nos-founder-item:last-child{border-bottom:1px solid rgba(244,242,238,.07)}
+.nos-initial{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:38px;line-height:1;color:var(--red);flex-shrink:0;width:36px;
+}
+.nos-info h3{
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:20px;text-transform:uppercase;color:var(--white);
+  letter-spacing:.04em;margin-bottom:4px;
+}
+.nos-info p{font-size:13px;color:var(--muted);letter-spacing:.03em}
+
+/* Photo cards side */
+.nos-photos{
+  position:relative;height:500px;
+  display:flex;align-items:center;justify-content:center;
+}
+.photo-card{
+  position:absolute;border-radius:18px;overflow:hidden;
+  box-shadow:0 28px 70px rgba(0,0,0,.75);
+  transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s,z-index 0s;
+}
+.photo-card:hover{box-shadow:0 44px 90px rgba(0,0,0,.9);z-index:10!important}
+
+/* SA — left, slightly smaller, tilted left */
+.photo-sa{
+  width:216px;height:296px;
+  left:8%;top:50%;
+  transform:translateY(-52%) rotate(-4deg);
+  z-index:2;
+}
+.photo-sa:hover{transform:translateY(-56%) rotate(-2deg) scale(1.04)!important}
+
+/* GA — right, bigger, tilted right */
+.photo-ga{
+  width:248px;height:340px;
+  right:4%;top:50%;
+  transform:translateY(-50%) rotate(3.5deg);
+  z-index:3;
+}
+.photo-ga:hover{transform:translateY(-54%) rotate(1.5deg) scale(1.04)!important}
+
+.photo-card-img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(1.1) brightness(.95);
+  display:block;transition:filter .4s;
+}
+.photo-card:hover .photo-card-img{filter:grayscale(75%) contrast(1.05)}
+
+.photo-card-img[src] {
+  filter:grayscale(100%) contrast(1.1) brightness(.95);
+}
+.photo-card:hover .photo-card-img[src]{filter:grayscale(75%) contrast(1.05)}
+
+/* Name badge */
+.photo-badge{
+  position:absolute;bottom:14px;left:14px;
+  background:rgba(11,11,11,.78);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(244,242,238,.12);
+  border-radius:8px;padding:7px 14px;
+  display:flex;align-items:center;gap:8px;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+.badge-name{
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--white);
+}
+
+/* placeholder silhouettes (until real photos are added) */
+.photo-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.photo-placeholder-sa{background:linear-gradient(160deg,#1a1a1a 0%,#2a2a2a 100%)}
+.photo-placeholder-ga{background:linear-gradient(160deg,#1e1e1e 0%,#2e2e2e 100%)}
+.silhouette{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:120px;color:rgba(248,37,52,.15);line-height:1;
+  position:absolute;bottom:-10px;
+}
+
+/* ─────────────────────────────────────────────
+   SERVICIOS
+───────────────────────────────────────────── */
+.services{padding:0 var(--px) 120px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+
+.svc-card{
+  background:var(--g1);padding:52px 44px 56px;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.svc-card::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:3px;background:var(--red);
+  transition:width .45s ease;
+}
+.svc-card:hover{background:var(--g2)}
+.svc-card:hover::after{width:100%}
+.svc-card:hover .svc-arrow{opacity:1;transform:translateX(0)}
+.svc-card:hover .svc-icon{border-color:rgba(248,37,52,.45)}
+
+.svc-icon{
+  width:50px;height:50px;border:1px solid rgba(244,242,238,.08);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:30px;transition:border-color .3s;
+}
+.svc-icon svg{width:22px;height:22px;stroke:var(--red);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+.svc-num{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:11px;letter-spacing:.24em;color:rgba(248,37,52,.5);margin-bottom:14px}
+.svc-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28px;text-transform:uppercase;color:var(--white);line-height:.95;margin-bottom:16px;letter-spacing:.02em}
+.svc-desc{font-size:13px;line-height:1.88;color:var(--muted)}
+.svc-arrow{position:absolute;bottom:44px;right:44px;font-size:18px;color:var(--red);opacity:0;transform:translateX(-8px);transition:opacity .3s,transform .3s}
+
+/* ─────────────────────────────────────────────
+   STATS
+───────────────────────────────────────────── */
+.stats{background:var(--red);display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:60px 44px;border-right:1px solid rgba(0,0,0,.12)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:82px;line-height:.88;color:var(--black)}
+.stat-l{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.5);margin-top:16px}
+
+/* ─────────────────────────────────────────────
+   PROCESO
+───────────────────────────────────────────── */
+.proceso{padding:120px var(--px)}
+.proceso-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:56px;border-top:1px solid rgba(244,242,238,.07)}
+.step{padding:52px 40px 52px 0;border-right:1px solid rgba(244,242,238,.07)}
+.step:first-child{padding-left:0}
+.step:last-child{border-right:none}
+.step+.step{padding-left:40px}
+.step-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:86px;line-height:.85;color:var(--red);opacity:.1;margin-bottom:20px;transition:opacity .3s}
+.step:hover .step-n{opacity:.2}
+.step-icon{width:42px;height:42px;border:1px solid rgba(244,242,238,.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:border-color .3s}
+.step:hover .step-icon{border-color:rgba(248,37,52,.45)}
+.step-icon svg{width:19px;height:19px;stroke:var(--red);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.step-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:21px;text-transform:uppercase;color:var(--white);margin-bottom:12px;letter-spacing:.04em}
+.step-desc{font-size:13px;line-height:1.85;color:var(--muted)}
+
+/* ─────────────────────────────────────────────
+   CLIENTES
+───────────────────────────────────────────── */
+.clientes{padding:72px var(--px);border-top:1px solid rgba(244,242,238,.05);border-bottom:1px solid rgba(244,242,238,.05)}
+.clientes-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,242,238,.2);text-align:center;margin-bottom:40px}
+.clientes-row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}
+.cliente{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:rgba(244,242,238,.13);transition:color .3s;padding:10px 32px;border-right:1px solid rgba(244,242,238,.06)}
+.cliente:last-child{border-right:none}
+.cliente:hover{color:rgba(244,242,238,.55)}
+
+/* ─────────────────────────────────────────────
+   CTA
+───────────────────────────────────────────── */
+.cta-section{padding:140px var(--px);text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(100px,20vw,280px);color:rgba(244,242,238,.02);white-space:nowrap;pointer-events:none;user-select:none}
+.cta-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--red);margin-bottom:24px}
+.cta-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(50px,8vw,106px);line-height:.87;text-transform:uppercase;color:var(--white);margin-bottom:52px;position:relative}
+.cta-title em{font-style:normal;color:var(--red)}
+.cta-email{display:block;margin-top:28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;color:rgba(244,242,238,.24);letter-spacing:.08em}
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+footer{background:var(--g1);padding:44px var(--px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(244,242,238,.05)}
+.ft-logo{display:flex;align-items:center;gap:12px}
+.ft-svg{height:28px;width:auto;filter:brightness(0) invert(1);opacity:.45}
+.ft-brand{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,242,238,.4)}
+.ft-copy{font-size:12px;color:rgba(244,242,238,.16);letter-spacing:.04em}
+.ft-links{display:flex;gap:24px;list-style:none}
+.ft-links a{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,242,238,.26);text-decoration:none;transition:color .2s}
+.ft-links a:hover{color:var(--red)}
+
+/* ─────────────────────────────────────────────
+   SHARED SECTION LABELS
+───────────────────────────────────────────── */
+.section-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--red)}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(36px,5vw,66px);line-height:.9;text-transform:uppercase;color:var(--white)}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:52px;padding-bottom:22px;border-bottom:1px solid rgba(244,242,238,.07)}
+.section-count{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:13px;color:rgba(244,242,238,.24);letter-spacing:.1em}
+
+/* ─────────────────────────────────────────────
+   OVERLAY / POPUPS
+───────────────────────────────────────────── */
+.overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.overlay.open{opacity:1;pointer-events:all}
+.overlay-bg{position:absolute;inset:0;background:rgba(11,11,11,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+
+.cp{position:relative;z-index:1;width:min(580px,94vw);background:var(--g1);border-top:3px solid var(--red);max-height:92vh;overflow-y:auto;transform:translateY(28px) scale(.97);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.overlay.open .cp{transform:translateY(0) scale(1)}
+.cp-head{padding:40px 48px 32px;border-bottom:1px solid rgba(244,242,238,.06);display:flex;align-items:flex-start;justify-content:space-between}
+.cp-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.cp-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:44px;text-transform:uppercase;color:var(--white);line-height:.92}
+.btn-x{width:38px;height:38px;flex-shrink:0;border:1px solid rgba(244,242,238,.12);background:transparent;color:var(--white);font-size:16px;cursor:none;display:flex;align-items:center;justify-content:center;margin-left:18px;transition:background .2s,border-color .2s}
+.btn-x:hover{background:var(--red);border-color:var(--red)}
+.cp-body{padding:36px 48px 48px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.f-full{grid-template-columns:1fr}
+.f-grp{display:flex;flex-direction:column;gap:7px}
+.f-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,242,238,.3)}
+.f-inp,.f-sel,.f-ta{background:rgba(244,242,238,.04);border:1px solid rgba(244,242,238,.1);color:var(--white);font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;padding:13px 16px;outline:none;width:100%;transition:border-color .2s,background .2s;-webkit-appearance:none;border-radius:0}
+.f-inp:focus,.f-sel:focus,.f-ta:focus{border-color:var(--red);background:rgba(248,37,52,.04)}
+.f-inp::placeholder,.f-ta::placeholder{color:rgba(244,242,238,.18)}
+.f-sel{cursor:pointer}.f-sel option{background:#1a1a1a;color:var(--white)}
+.f-ta{resize:none;height:96px}
+.f-sub{width:100%;margin-top:22px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);background:var(--red);padding:18px;border:none;cursor:pointer;transition:background .2s}
+.f-sub:hover{background:#d41e2c}
+.f-note{font-size:11px;color:rgba(244,242,238,.18);text-align:center;margin-top:14px;letter-spacing:.04em}
+.cp-success{padding:72px 48px;text-align:center;display:none}
+.cp-success.show{display:block}
+.success-ico{width:58px;height:58px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:24px;color:var(--black);font-weight:700}
+.cp-success h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:38px;text-transform:uppercase;color:var(--white);margin-bottom:12px}
+.cp-success p{font-size:14px;color:var(--muted);line-height:1.75}
+
+.sm-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+.sm-overlay.open{opacity:1;pointer-events:all}
+.sm-panel{position:relative;z-index:1;width:min(640px,94vw);background:var(--g1);border-top:3px solid var(--red);padding:56px;max-height:92vh;overflow-y:auto;transform:translateY(28px);transition:transform .38s cubic-bezier(.16,1,.3,1)}
+.sm-overlay.open .sm-panel{transform:translateY(0)}
+.sm-num{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--red);margin-bottom:14px}
+.sm-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:50px;text-transform:uppercase;color:var(--white);line-height:.9;margin-bottom:28px}
+.sm-desc{font-size:15px;line-height:1.85;color:var(--muted);margin-bottom:32px}
+.sm-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:40px}
+.sm-list li{font-size:13px;color:rgba(244,242,238,.44);display:flex;align-items:center;gap:14px}
+.sm-list li::before{content:'';width:22px;height:1px;background:var(--red);flex-shrink:0}
+.sm-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);background:var(--red);padding:15px 38px;border:none;cursor:pointer;transition:background .2s}
+.sm-cta:hover{background:#d41e2c}
+
+/* ─────────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s,transform .75s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE — TABLET (≤ 1024px)
+───────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{min-height:100svh;padding:0 var(--px) 88px;justify-content:flex-end}
+  .hero-left::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
+
+  .nosotros{grid-template-columns:1fr;gap:60px}
+  .nos-photos{height:420px}
+  .photo-sa{width:190px;height:260px;left:5%}
+  .photo-ga{width:220px;height:300px;right:5%}
+
+  .services-grid{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:1px solid rgba(0,0,0,.12)}
+  .stat:nth-child(4){border-top:1px solid rgba(0,0,0,.12);border-right:none}
+  .proceso-grid{grid-template-columns:1fr 1fr}
+  .step:nth-child(2){border-right:none}
+  .step:nth-child(3){border-right:1px solid rgba(244,242,238,.07);border-top:1px solid rgba(244,242,238,.07);padding-left:0;padding-top:40px}
+  .step:nth-child(4){border-right:none;border-top:1px solid rgba(244,242,238,.07);padding-left:40px;padding-top:40px}
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE — MOBILE (≤ 768px)
+───────────────────────────────────────────── */
+@media(max-width:768px){
+  body{cursor:auto}
+  .cur,.cur-ring{display:none}
+  button,a,.svc-card{cursor:pointer}
+
+  nav{padding:16px var(--px)}
+  .nav-links,.nav-btn{display:none}
+  .hamburger{display:flex}
+
+  .hero-title{font-size:clamp(58px,16vw,86px)}
+  .hero-sub{font-size:14px;max-width:100%}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:14px;margin-top:36px}
+  .btn-red{width:100%;text-align:center;padding:18px}
+  .btn-ghost{opacity:.65}
+
+  .nosotros{padding:80px var(--px);gap:52px}
+  .nos-photos{height:360px}
+  .photo-sa{width:165px;height:228px;left:2%}
+  .photo-ga{width:192px;height:268px;right:2%}
+
+  .services{padding:0 var(--px) 88px}
+  .services-grid{grid-template-columns:1fr}
+  .section-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .svc-card{padding:40px 28px 48px}
+  .svc-arrow{display:none}
+
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:40px 24px}
+  .stat-n{font-size:58px}
+  .stat:nth-child(2){border-right:none}
+  .stat:nth-child(3){border-top:1px solid rgba(0,0,0,.12);border-right:1px solid rgba(0,0,0,.12)}
+  .stat:nth-child(4){border-top:1px solid rgba(0,0,0,.12);border-right:none}
+
+  .proceso{padding:88px var(--px)}
+  .proceso-grid{grid-template-columns:1fr}
+  .step{border-right:none!important;border-top:1px solid rgba(244,242,238,.07)!important;padding:36px 0!important}
+  .step:first-child{border-top:none!important;padding-top:40px!important}
+  .step-n{font-size:66px}
+
+  .clientes{padding:60px var(--px)}
+  .clientes-row{flex-direction:column}
+  .cliente{border-right:none!important;border-bottom:1px solid rgba(244,242,238,.06);padding:14px 0;font-size:16px}
+  .cliente:last-child{border-bottom:none}
+
+  .cta-section{padding:100px var(--px)}
+  .cta-title{margin-bottom:36px}
+  .btn-red.cta-big{width:100%;text-align:center}
+
+  footer{flex-direction:column;align-items:flex-start;gap:24px;padding:40px var(--px)}
+  .ft-copy{order:3}
+
+  .cp-head{padding:28px var(--px) 24px}
+  .cp-body{padding:28px var(--px) 40px}
+  .cp-title{font-size:36px}
+  .f-row{grid-template-columns:1fr}
+  .sm-panel{padding:40px var(--px)}
+  .sm-title{font-size:38px}
+}
+
+@media(max-width:400px){
+  .hero-title{font-size:clamp(50px,14vw,68px)}
+  .photo-sa{width:148px;height:205px}
+  .photo-ga{width:172px;height:240px}
+  .stat-n{font-size:50px}
+}
+
+/* ─────────────────────────────────────────────
+   VISUAL IMPROVEMENTS
+───────────────────────────────────────────── */
+.hero-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(248,37,52,0.1) 0%, rgba(248,37,52,0.05) 50%, rgba(248,37,52,0.1) 100%);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+}
+
+.svc-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(248,37,52,0.1);
+}
+
+.photo-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(248,37,52,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.btn-red:hover {
+  box-shadow: 0 10px 20px rgba(248,37,52,0.3);
+}
+
+.nav-btn:hover {
+  box-shadow: 0 5px 15px rgba(248,37,52,0.4);
+}
+
+.hero-title em {
+  background: linear-gradient(45deg, #F82534, #d41e2c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-title em {
+  background: linear-gradient(45deg, #F82534, #d41e2c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.photo-card {
+  background: linear-gradient(135deg, rgba(19,19,19,0.9) 0%, rgba(28,28,28,0.9) 100%);
+}
+
+.services-grid {
+  background: linear-gradient(90deg, rgba(248,37,52,0.02) 0%, transparent 50%, rgba(248,37,52,0.02) 100%);
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.stats {
+  background: linear-gradient(135deg, #F82534 0%, #d41e2c 100%);
+}
+
+.proceso-grid {
+  background: rgba(244,242,238,0.01);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.clientes-row {
+  background: rgba(244,242,238,0.02);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+</style>
 </head>
-<body class="cursor-none">
-    <div id="cursor"></div>
-    <div class="grain"></div>
-    
-    <div id="root"></div>
+<body>
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <!-- SAGA Logo SVG — exact replica of uploaded logo -->
+    <svg class="nav-logo-svg" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- S -->
+      <path d="M10 30 C10 30 10 15 30 15 L95 15 C110 15 115 25 115 35 C115 50 100 55 85 58 L40 68 C20 73 8 82 8 100 C8 118 20 130 42 130 L108 130 C125 130 132 118 132 105" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- A (shared, center) -->
+      <path d="M115 130 L175 15 L235 130" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="133" y1="88" x2="217" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+      <!-- G -->
+      <path d="M290 30 C275 15 258 10 238 18 C210 30 198 58 200 88 C202 118 220 138 248 140 C276 142 296 128 304 108 L304 88 L260 88" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- A (end) -->
+      <path d="M310 130 L370 15 L410 80" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="328" y1="88" x2="392" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-brand">Social Media Studio</span>
+  </a>
 
-        const Icon = ({ name, size = 20, className = "" }) => {
-            useEffect(() => {
-                if (window.lucide) window.lucide.createIcons();
-            }, [name]);
-            return <i data-lucide={name} className={className} style={{ width: size, height: size }}></i>;
-        };
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+  </ul>
+  <button class="nav-btn" onclick="openContact()">Hablemos</button>
+  <button class="hamburger" id="burger" onclick="toggleNav()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-        const App = () => {
-            const [activeFilter, setActiveFilter] = useState('Todos');
-            const [selectedProject, setSelectedProject] = useState(null);
-            const [activeMedia, setActiveMedia] = useState(null);
-            const [isContactOpen, setIsContactOpen] = useState(false);
-            const [currentSlide, setCurrentSlide] = useState(0);
+<!-- Mobile drawer -->
+<div class="mob-drawer" id="drawer">
+  <a href="#servicios" onclick="closeNav()">Servicios</a>
+  <a href="#nosotros" onclick="closeNav()">Nosotros</a>
+  <a href="#proceso" onclick="closeNav()">Proceso</a>
+  <button class="mob-cta-mob" onclick="closeNav();openContact()">Hablemos</button>
+</div>
 
-            const heroSlides = [
-                {
-                    title: "SAGA.",
-                    subtitle: "VISUAL STORIES",
-                    img: "https://images.unsplash.com/photo-1492691523567-30730029d031?w=1600&q=80"
-                },
-                {
-                    title: "SOCIAL.",
-                    subtitle: "HIGH FREQUENCY",
-                    img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&q=80"
-                },
-                {
-                    title: "STUDIO.",
-                    subtitle: "ALGO STRATEGY",
-                    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1600&q=80"
-                }
-            ];
+<!-- ══ HERO ══ -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Social Media Studio — Colombia</p>
+    <h1 class="hero-title">
+      Hacemos<br>
+      que tu<br>
+      marca<br>
+      <em>hable.</em>
+    </h1>
+    <p class="hero-sub">Somos Sebastián y Gabriela Acevedo. Estrategia, contenido y comunidad para marcas que quieren dejar huella.</p>
+    <div class="hero-actions">
+      <button class="btn-red" onclick="openContact()">Empezar proyecto</button>
+      <a href="#servicios" class="btn-ghost">Ver servicios</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- Big white SAGA logo on red -->
+    <svg class="hero-logo-big" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 30 C10 30 10 15 30 15 L95 15 C110 15 115 25 115 35 C115 50 100 55 85 58 L40 68 C20 73 8 82 8 100 C8 118 20 130 42 130 L108 130 C125 130 132 118 132 105" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M115 130 L175 15 L235 130" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="133" y1="88" x2="217" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+      <path d="M290 30 C275 15 258 10 238 18 C210 30 198 58 200 88 C202 118 220 138 248 140 C276 142 296 128 304 108 L304 88 L260 88" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M310 130 L370 15 L410 80" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="328" y1="88" x2="392" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+    </svg>
+    <div class="hero-scroll-hint">Scroll<span></span></div>
+  </div>
+</section>
 
-            useEffect(() => {
-                const cursor = document.getElementById('cursor');
-                const moveCursor = (e) => {
-                    requestAnimationFrame(() => {
-                        cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
-                    });
-                };
-                window.addEventListener('mousemove', moveCursor);
+<!-- ══ TICKER ══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Estrategia Digital</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Contenido Visual</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Gestión de Comunidad</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Campañas de Impacto</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Análisis & Métricas</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Producción Audiovisual</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Estrategia Digital</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Contenido Visual</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Gestión de Comunidad</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Campañas de Impacto</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Análisis & Métricas</span><span class="ticker-dot">✦</span>
+    <span class="ticker-item">Producción Audiovisual</span><span class="ticker-dot">✦</span>
+  </div>
+</div>
 
-                const timer = setInterval(() => {
-                    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-                }, 5000);
+<!-- ══ NOSOTROS ══ -->
+<section class="nosotros" id="nosotros">
+  <!-- TEXT -->
+  <div class="nos-text reveal">
+    <p class="section-label" style="margin-bottom:14px">Quiénes somos</p>
+    <h2 class="section-title" style="margin-bottom:28px">Dos hermanos.<br>Una visión.</h2>
+    <p>Nacimos como SAGA para combinar estrategia y creatividad en una sola voz. Cada proyecto lleva el sello de dos perspectivas complementarias que se fusionan en resultados reales.</p>
+    <div class="nos-founders-list" style="margin-top:40px">
+      <div class="nos-founder-item">
+        <div class="nos-initial">S</div>
+        <div class="nos-info">
+          <h3>Sebastián Acevedo</h3>
+          <p>Estrategia &amp; Dirección Creativa</p>
+        </div>
+      </div>
+      <div class="nos-founder-item">
+        <div class="nos-initial">G</div>
+        <div class="nos-info">
+          <h3>Gabriela Acevedo</h3>
+          <p>Comunidad &amp; Producción Visual</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('visible');
-                    });
-                }, { threshold: 0.1 });
+  <!-- PHOTO CARDS -->
+  <div class="nos-photos reveal" style="transition-delay:.15s">
+    <!-- Sebastián -->
+    <div class="photo-card photo-sa">
+      <div class="photo-placeholder photo-placeholder-sa">
+        <!-- Replace with: <img class="photo-card-img" src="assets/images/sebastian.jpg" alt="Sebastián Acevedo"> -->
+        <div class="silhouette">S</div>
+      </div>
+      <div class="photo-badge">
+        <div class="badge-dot"></div>
+        <span class="badge-name">Sebastián</span>
+      </div>
+    </div>
+    <!-- Gabriela -->
+    <div class="photo-card photo-ga">
+      <div class="photo-placeholder photo-placeholder-ga">
+        <!-- Replace with: <img class="photo-card-img" src="assets/images/gabriela.jpg" alt="Gabriela Acevedo"> -->
+        <div class="silhouette">G</div>
+      </div>
+      <div class="photo-badge">
+        <div class="badge-dot"></div>
+        <span class="badge-name">Gabriela</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-                if (window.lucide) window.lucide.createIcons();
-                
-                return () => {
-                    window.removeEventListener('mousemove', moveCursor);
-                    clearInterval(timer);
-                    observer.disconnect();
-                };
-            }, []);
+<!-- ══ SERVICIOS ══ -->
+<section class="services" id="servicios">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-label" style="margin-bottom:14px">Lo que hacemos</p>
+      <h2 class="section-title">Servicios</h2>
+    </div>
+    <span class="section-count">06 servicios</span>
+  </div>
+  <div class="services-grid">
+    <article class="svc-card reveal" onclick="openSvc(0)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(0)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <p class="svc-num">01</p><h3 class="svc-name">Estrategia<br>de Marca</h3>
+      <p class="svc-desc">Definimos tu identidad digital, voz y plan de contenidos. La base de todo lo demás.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+    <article class="svc-card reveal" style="transition-delay:.07s" onclick="openSvc(1)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(1)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <p class="svc-num">02</p><h3 class="svc-name">Gestión de<br>Redes</h3>
+      <p class="svc-desc">Operamos tus cuentas de principio a fin: planificación, publicación, interacción y crecimiento.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+    <article class="svc-card reveal" style="transition-delay:.14s" onclick="openSvc(2)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(2)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+      <p class="svc-num">03</p><h3 class="svc-name">Producción<br>de Contenido</h3>
+      <p class="svc-desc">Fotos, videos, reels y stories que detienen el scroll. Producción visual editorial.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+    <article class="svc-card reveal" style="transition-delay:.07s" onclick="openSvc(3)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(3)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+      <p class="svc-num">04</p><h3 class="svc-name">Campañas<br>de Pauta</h3>
+      <p class="svc-desc">Inversión inteligente en Meta y TikTok Ads. Segmentación precisa, resultados medibles.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+    <article class="svc-card reveal" style="transition-delay:.14s" onclick="openSvc(4)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(4)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <p class="svc-num">05</p><h3 class="svc-name">Community<br>Management</h3>
+      <p class="svc-desc">Construimos y activamos comunidades. Respondemos, fidelizamos y convertimos.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+    <article class="svc-card reveal" style="transition-delay:.21s" onclick="openSvc(5)" tabindex="0" onkeydown="if(event.key==='Enter')openSvc(5)">
+      <div class="svc-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <p class="svc-num">06</p><h3 class="svc-name">Análisis &amp;<br>Reportes</h3>
+      <p class="svc-desc">Métricas que importan. Reportes claros con insights accionables cada mes.</p>
+      <span class="svc-arrow">→</span>
+    </article>
+  </div>
+</section>
 
-            const projects = [
-                { 
-                    id: 1, 
-                    title: "ESSENCE", 
-                    category: "Video", 
-                    img: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=1200&q=80", 
-                    tag: "Production",
-                    span: "col-span-1 md:col-span-2 h-[300px] md:h-[600px]",
-                    description: "Capturando la pureza del movimiento en un formato cinematográfico vertical.",
-                    items: [
-                        { type: 'video', url: "https://www.w3schools.com/html/mov_bbb.mp4", thumb: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80", title: "Video Cut" }
-                    ]
-                },
-                { 
-                    id: 2, 
-                    title: "MINIMAL", 
-                    category: "Diseño", 
-                    img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", 
-                    tag: "Branding",
-                    span: "col-span-1 h-[300px] md:h-[400px]",
-                    description: "Identidad visual de alto nivel basada en la supresión de lo innecesario.",
-                    items: [
-                        { type: 'image', url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&q=80", title: "Brand Core" }
-                    ]
-                },
-                { 
-                    id: 3, 
-                    title: "GROWTH", 
-                    category: "Social Media", 
-                    img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80", 
-                    tag: "Strategy",
-                    span: "col-span-1 h-[300px] md:h-[400px]",
-                    description: "Escalando marcas mediante narrativa orgánica y coherencia estética.",
-                    items: [
-                        { type: 'image', url: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80", title: "Strategy" }
-                    ]
-                }
-            ];
+<!-- ══ STATS ══ -->
+<section class="stats">
+  <div class="stat reveal"><div class="stat-n">+80</div><div class="stat-l">Marcas trabajadas</div></div>
+  <div class="stat reveal" style="transition-delay:.1s"><div class="stat-n">5M+</div><div class="stat-l">Alcance mensual</div></div>
+  <div class="stat reveal" style="transition-delay:.2s"><div class="stat-n">4×</div><div class="stat-l">ROI promedio</div></div>
+  <div class="stat reveal" style="transition-delay:.3s"><div class="stat-n">98%</div><div class="stat-l">Clientes que renuevan</div></div>
+</section>
 
-            const filteredProjects = activeFilter === 'Todos' ? projects : projects.filter(p => p.category === activeFilter);
+<!-- ══ PROCESO ══ -->
+<section class="proceso" id="proceso">
+  <div class="section-header reveal">
+    <div><p class="section-label" style="margin-bottom:14px">Cómo trabajamos</p><h2 class="section-title">Proceso</h2></div>
+  </div>
+  <div class="proceso-grid">
+    <div class="step reveal">
+      <div class="step-n">01</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+      <h3 class="step-name">Diagnóstico</h3><p class="step-desc">Analizamos tu marca, mercado y competencia. Sin este paso, nada tiene sentido.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.1s">
+      <div class="step-n">02</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+      <h3 class="step-name">Estrategia</h3><p class="step-desc">Definimos objetivos, audiencias, plataformas y el plan de contenido mensual.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.2s">
+      <div class="step-n">03</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+      <h3 class="step-name">Ejecución</h3><p class="step-desc">Producimos, publicamos y gestionamos. Tú te concentras en tu negocio.</p>
+    </div>
+    <div class="step reveal" style="transition-delay:.3s">
+      <div class="step-n">04</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+      <h3 class="step-name">Optimización</h3><p class="step-desc">Medimos, aprendemos y mejoramos. Cada mes mejor que el anterior.</p>
+    </div>
+  </div>
+</section>
 
-            return (
-                <div className="relative min-h-screen pb-10 md:pb-20">
-                    
-                    <nav className="fixed top-6 md:top-8 left-1/2 -translate-x-1/2 z-[200] bg-white/5 backdrop-blur-xl border border-white/10 px-4 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-4 md:gap-12 shadow-2xl w-[90%] md:w-auto justify-between md:justify-start">
-                        <div className="text-lg md:text-xl font-bold tracking-tighter uppercase saga-font">SAGA</div>
-                        <div className="hidden md:flex gap-8">
-                            {['Inicio', 'Estudio', 'Index'].map(item => (
-                                <a key={item} href={`#${item.toLowerCase()}`} className="text-[10px] font-medium uppercase tracking-[0.4em] text-white/50 hover:text-white transition-all">{item}</a>
-                            ))}
-                        </div>
-                        <button onClick={() => setIsContactOpen(true)} className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] bg-white text-black px-4 md:px-5 py-2 rounded-full hover:scale-105 active:scale-95 transition-all">Hablemos</button>
-                    </nav>
+<!-- ══ CLIENTES ══ -->
+<section class="clientes reveal">
+  <p class="clientes-lbl">Marcas que confían en SAGA</p>
+  <div class="clientes-row">
+    <span class="cliente">El Origen</span>
+    <span class="cliente">Studio Kova</span>
+    <span class="cliente">Pharma+</span>
+    <span class="cliente">Modus Wear</span>
+    <span class="cliente">Lumina</span>
+    <span class="cliente">BuildCo</span>
+  </div>
+</section>
 
-                    <section id="inicio" className="relative h-screen w-full overflow-hidden">
-                        {heroSlides.map((slide, idx) => (
-                            <div 
-                                key={idx}
-                                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                            >
-                                <div className="absolute inset-0">
-                                    <img 
-                                        src={slide.img} 
-                                        className={`w-full h-full object-cover grayscale opacity-40 ${currentSlide === idx ? 'animate-kenburns' : ''}`}
-                                        alt={slide.title}
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
-                                </div>
+<!-- ══ CTA ══ -->
+<section class="cta-section" id="contacto">
+  <div class="cta-bg">SAGA</div>
+  <p class="cta-lbl">¿Listo para crecer?</p>
+  <h2 class="cta-title reveal">Tu próxima<br>historia<br>empieza <em>aquí.</em></h2>
+  <button class="btn-red cta-big reveal" style="transition-delay:.2s;font-size:16px;padding:20px 56px" onclick="openContact()">Escribir a SAGA</button>
+  <span class="cta-email">hola@sagastudio.co</span>
+</section>
 
-                                <div className="relative h-full flex flex-col justify-center items-center text-center px-6">
-                                    <span className="text-[10px] font-medium uppercase tracking-[1em] text-white/40 mb-4 md:mb-6 block overflow-hidden">
-                                        <span className={`block transition-transform duration-700 delay-300 ${currentSlide === idx ? 'translate-y-0' : 'translate-y-full'}`}>
-                                            {slide.subtitle}
-                                        </span>
-                                    </span>
-                                    <h1 className="text-[18vw] md:text-[16vw] font-black leading-none uppercase saga-font overflow-hidden">
-                                        <span className={`block transition-transform duration-1000 ${currentSlide === idx ? 'translate-y-0' : 'translate-y-full'}`}>
-                                            {slide.title}
-                                        </span>
-                                    </h1>
-                                </div>
-                            </div>
-                        ))}
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="ft-logo">
+    <svg class="ft-svg" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 30 C10 30 10 15 30 15 L95 15 C110 15 115 25 115 35 C115 50 100 55 85 58 L40 68 C20 73 8 82 8 100 C8 118 20 130 42 130 L108 130 C125 130 132 118 132 105" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M115 130 L175 15 L235 130" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="133" y1="88" x2="217" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+      <path d="M290 30 C275 15 258 10 238 18 C210 30 198 58 200 88 C202 118 220 138 248 140 C276 142 296 128 304 108 L304 88 L260 88" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M310 130 L370 15 L410 80" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="328" y1="88" x2="392" y2="88" stroke="white" stroke-width="22" stroke-linecap="round"/>
+    </svg>
+    <span class="ft-brand">SAGA Studio</span>
+  </div>
+  <p class="ft-copy">© 2025 SAGA Social Media Studio — Sebastián &amp; Gabriela Acevedo</p>
+  <ul class="ft-links">
+    <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="#" target="_blank" rel="noopener">TikTok</a></li>
+    <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+  </ul>
+</footer>
 
-                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex gap-3 md:gap-4">
-                            {heroSlides.map((_, idx) => (
-                                <div 
-                                    key={idx} 
-                                    onClick={() => setCurrentSlide(idx)}
-                                    className="w-8 md:w-12 h-0.5 bg-white/10 cursor-pointer relative overflow-hidden"
-                                >
-                                    <div 
-                                        className={`absolute inset-0 bg-white transition-all duration-[5000ms] linear ${currentSlide === idx ? 'w-full' : 'w-0'}`}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+<!-- ══ POPUP CONTACTO ══ -->
+<div class="overlay" id="contactOverlay" role="dialog" aria-modal="true">
+  <div class="overlay-bg" onclick="closeContact()"></div>
+  <div class="cp">
+    <div id="cpForm">
+      <div class="cp-head">
+        <div><p class="cp-eyebrow">Cuéntanos tu proyecto</p><h3 class="cp-title">Hablemos.</h3></div>
+        <button class="btn-x" onclick="closeContact()">✕</button>
+      </div>
+      <div class="cp-body">
+        <div class="f-row">
+          <div class="f-grp"><label class="f-lbl" for="fn">Nombre</label><input class="f-inp" type="text" id="fn" placeholder="Tu nombre" autocomplete="given-name"></div>
+          <div class="f-grp"><label class="f-lbl" for="fb">Empresa / Marca</label><input class="f-inp" type="text" id="fb" placeholder="Nombre de tu marca" autocomplete="organization"></div>
+        </div>
+        <div class="f-row">
+          <div class="f-grp"><label class="f-lbl" for="fe">Email</label><input class="f-inp" type="email" id="fe" placeholder="tu@email.com" autocomplete="email"></div>
+          <div class="f-grp"><label class="f-lbl" for="fp">WhatsApp</label><input class="f-inp" type="tel" id="fp" placeholder="+57 300 000 0000" autocomplete="tel"></div>
+        </div>
+        <div class="f-row f-full">
+          <div class="f-grp"><label class="f-lbl" for="fs">Servicio de interés</label>
+            <select class="f-sel" id="fs">
+              <option value="" disabled selected>Selecciona un servicio</option>
+              <option>Estrategia de Marca</option><option>Gestión de Redes Sociales</option>
+              <option>Producción de Contenido</option><option>Campañas de Pauta</option>
+              <option>Community Management</option><option>Análisis &amp; Reportes</option>
+              <option>Paquete Completo</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-row f-full">
+          <div class="f-grp"><label class="f-lbl" for="fm">Cuéntanos más</label><textarea class="f-ta" id="fm" placeholder="¿Qué quieres lograr con tu marca en redes?"></textarea></div>
+        </div>
+        <button class="f-sub" onclick="submitForm()">Enviar mensaje →</button>
+        <p class="f-note">Te respondemos en menos de 24 h · hola@sagastudio.co</p>
+      </div>
+    </div>
+    <div class="cp-success" id="cpSuccess">
+      <div class="success-ico">✓</div>
+      <h3>¡Recibido!</h3>
+      <p>Gracias por escribirnos.<br>Sebastián o Gabriela te contactarán muy pronto.</p>
+    </div>
+  </div>
+</div>
 
-                    {/* ESTUDIO: RESPONSIVE OPTIMIZED */}
-                    <section id="estudio" className="py-20 md:py-48 px-6 md:px-20 max-w-7xl mx-auto scroll-mt-24">
-                        <div className="reveal">
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-center">
-                                
-                                <div className="lg:col-span-7 order-2 lg:order-1">
-                                    <h2 className="text-3xl md:text-6xl font-bold mb-8 md:mb-12 saga-font uppercase italic opacity-20 tracking-tighter text-left">EL ORIGEN.</h2>
-                                    <p className="text-xl md:text-4xl font-light leading-snug italic text-white/60 mb-8 md:mb-12 text-left">
-                                        SAGA es la <span className="text-white font-medium not-italic border-b border-white/20">sinergia genética</span> de Sebastián y Gabriela Acevedo. 
-                                    </p>
-                                    <p className="text-lg md:text-2xl font-light leading-relaxed text-white/40 italic max-w-2xl mb-10 md:mb-12 text-left">
-                                        Una herencia de 10 años fusionando visión fraternal y estrategia para crear <span className="text-white font-medium not-italic">narrativas visuales</span> que no solo se consumen, sino que se recuerdan.
-                                    </p>
-                                    
-                                    <div className="grid grid-cols-2 gap-4 md:gap-8 border-t border-white/5 pt-10">
-                                        <div>
-                                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 block mb-1">Trayectoria</span>
-                                            <p className="text-base md:text-lg uppercase saga-font italic">+10 Años</p>
-                                        </div>
-                                        <div>
-                                            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 block mb-1">Especialidad</span>
-                                            <p className="text-base md:text-lg uppercase saga-font italic">Management</p>
-                                        </div>
-                                    </div>
-                                </div>
+<!-- ══ MODAL SERVICIO ══ -->
+<div class="sm-overlay" id="smOverlay" role="dialog" aria-modal="true">
+  <div class="overlay-bg" onclick="closeSvc()"></div>
+  <div class="sm-panel">
+    <button class="btn-x" style="position:absolute;top:24px;right:24px" onclick="closeSvc()">✕</button>
+    <p class="sm-num" id="smNum"></p>
+    <h2 class="sm-title" id="smTitle"></h2>
+    <p class="sm-desc" id="smDesc"></p>
+    <ul class="sm-list" id="smList"></ul>
+    <button class="sm-cta" onclick="closeSvc();openContact()">Solicitar este servicio →</button>
+  </div>
+</div>
 
-                                <div className="lg:col-span-5 relative order-1 lg:order-2">
-                                    <div className="relative grid grid-cols-2 gap-4 md:gap-6">
-                                        {/* Foto Sebastián */}
-                                        <a 
-                                            href="https://www.linkedin.com/in/sebastián-acevedo-anlas-733035197/" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="relative group overflow-hidden rounded-2xl aspect-[3/4] md:translate-y-8 transition-all duration-700 md:hover:-translate-y-2 glass-card block cursor-none interactive"
-                                        >
-                                            <img 
-                                                src="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/imagen_2026-04-29_230235712.png" 
-                                                className="w-full h-full object-cover grayscale md:group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
-                                                alt="Sebastián Acevedo"
-                                            />
-                                            <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4">
-                                                <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-2 py-1 rounded-full text-white/70">Sebastián</span>
-                                            </div>
-                                        </a>
+<script>
+/* DATA */
+const SVCS=[
+  {num:'01',title:'Estrategia\nde Marca',desc:'Construimos la base de tu presencia digital desde cero. Definimos quién eres, cómo hablas y a quién le hablas — antes de publicar un solo post.',items:['Auditoría de marca y competencia','Definición de voz, tono y personalidad','Arquitectura de contenido por plataforma','Calendario editorial mensual','Manual de estilo digital']},
+  {num:'02',title:'Gestión de\nRedes',desc:'Nos hacemos cargo de tu presencia en redes de principio a fin. Tú te concentras en tu negocio; nosotros en hacer crecer tus cuentas.',items:['Planificación y publicación diaria','Instagram, TikTok, Facebook y LinkedIn','Interacción con audiencia y gestión de DMs','Monitoreo de menciones y tendencias','Reporte mensual de resultados']},
+  {num:'03',title:'Producción\nde Contenido',desc:'Contenido visual que para el scroll. Fotografía, video, reels y diseño gráfico con estética editorial y propósito estratégico.',items:['Sesiones de fotografía de producto y lifestyle','Producción de reels y videos cortos','Diseño de piezas gráficas y stories','Edición y postproducción profesional','Pack de contenido mensual listo para publicar']},
+  {num:'04',title:'Campañas\nde Pauta',desc:'Invertir en pauta sin estrategia es tirar dinero. Diseñamos campañas en Meta Ads y TikTok Ads con segmentación precisa y optimización constante.',items:['Configuración y estructura de campañas','Segmentación de audiencias personalizadas','Diseño de creativos para anuncios','Optimización semanal del presupuesto','Reporte de ROI y métricas clave']},
+  {num:'05',title:'Community\nManagement',desc:'Una comunidad activa es tu mejor activo de marketing. Respondemos, fidelizamos y convertimos seguidores en clientes reales.',items:['Gestión diaria de comentarios y DMs','Activaciones y dinámicas de engagement','Manejo de crisis y reputación online','Construcción de comunidades de marca','Estrategia de fidelización']},
+  {num:'06',title:'Análisis &\nReportes',desc:'Las decisiones que no están basadas en datos son apuestas. Te entregamos informes claros con lo que funciona, lo que no, y lo que viene.',items:['Dashboard mensual personalizado','Análisis de métricas por plataforma','Benchmarking contra competencia','Identificación de contenido top performer','Recomendaciones accionables cada mes']}
+];
 
-                                        {/* Foto Gabriela */}
-                                        <a 
-                                            href="https://www.linkedin.com/in/gabriela-acevedo" 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="relative group overflow-hidden rounded-2xl aspect-[3/4] md:-translate-y-8 transition-all duration-700 md:hover:-translate-y-12 glass-card block cursor-none interactive"
-                                        >
-                                            <img 
-                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80" 
-                                                className="w-full h-full object-cover grayscale md:group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out"
-                                                alt="Gabriela Acevedo"
-                                            />
-                                            <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4">
-                                                <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest bg-black/60 backdrop-blur-md px-2 py-1 rounded-full text-white/70">Gabriela</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-64 md:h-64 bg-white/5 rounded-full blur-3xl"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+/* CONTACT */
+function openContact(pre){
+  document.getElementById('contactOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(pre){const s=document.getElementById('fs');for(let i=0;i<s.options.length;i++){if(s.options[i].text===pre){s.selectedIndex=i;break;}}}
+}
+function closeContact(){document.getElementById('contactOverlay').classList.remove('open');document.body.style.overflow='';}
+function submitForm(){
+  const n=document.getElementById('fn'),e=document.getElementById('fe');
+  n.style.borderColor=n.value.trim()?'':'var(--red)';
+  e.style.borderColor=e.value.trim()?'':'var(--red)';
+  if(!n.value.trim()||!e.value.trim())return;
+  document.getElementById('cpForm').style.display='none';
+  document.getElementById('cpSuccess').classList.add('show');
+  setTimeout(()=>{closeContact();setTimeout(()=>{document.getElementById('cpForm').style.display='';document.getElementById('cpSuccess').classList.remove('show');['fn','fb','fe','fp','fm'].forEach(id=>document.getElementById(id).value='');document.getElementById('fs').selectedIndex=0;n.style.borderColor='';e.style.borderColor='';},400);},3000);
+}
 
-                    <section id="index" className="py-20 md:py-40 px-6 max-w-7xl mx-auto scroll-mt-20">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6 reveal">
-                            <h2 className="text-4xl md:text-6xl font-bold saga-font">INDEX.</h2>
-                            <div className="flex gap-4 md:gap-8 flex-wrap">
-                                {['Todos', 'Video', 'Diseño'].map(f => (
-                                    <button 
-                                        key={f} 
-                                        onClick={() => setActiveFilter(f)} 
-                                        className={`text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] transition-all ${activeFilter === f ? 'text-white border-b border-white pb-1' : 'text-white/20 hover:text-white'}`}
-                                    >
-                                        {f}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+/* SERVICE MODAL */
+function openSvc(i){
+  const s=SVCS[i];
+  document.getElementById('smNum').textContent=s.num;
+  document.getElementById('smTitle').innerHTML=s.title.replace('\n','<br>');
+  document.getElementById('smDesc').textContent=s.desc;
+  document.getElementById('smList').innerHTML=s.items.map(it=>`<li>${it}</li>`).join('');
+  document.getElementById('smOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSvc(){document.getElementById('smOverlay').classList.remove('open');document.body.style.overflow='';}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {filteredProjects.map((p) => (
-                                <div 
-                                    key={p.id} 
-                                    onClick={() => setSelectedProject(p)}
-                                    className={`group relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] glass-card cursor-none reveal ${p.span}`}
-                                >
-                                    <img src={p.img} className="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" alt="" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
-                                    <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10 flex justify-between items-end">
-                                        <div>
-                                            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] text-white/30 mb-1 md:mb-2 block italic">{p.category}</span>
-                                            <h3 className="text-xl md:text-3xl font-bold uppercase saga-font leading-tight">{p.title}</h3>
-                                        </div>
-                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all duration-500">
-                                            <Icon name="arrow-up-right" size={18} />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+/* MOBILE NAV */
+function toggleNav(){
+  const b=document.getElementById('burger'),d=document.getElementById('drawer');
+  b.classList.toggle('open');d.classList.toggle('open');
+  document.body.style.overflow=d.classList.contains('open')?'hidden':'';
+}
+function closeNav(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  document.body.style.overflow='';
+}
 
-                    {isContactOpen && (
-                        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
-                            <div className="absolute inset-0 bg-black/95 backdrop-blur-xl animate-in fade-in" onClick={() => setIsContactOpen(false)}></div>
-                            <div className="relative bg-[#0d0d0e] w-full max-w-lg rounded-[2rem] md:rounded-[2.5rem] border border-white/5 overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95">
-                                <div className="p-6 md:p-10 border-b border-white/5 flex justify-between items-center">
-                                    <h2 className="text-2xl md:text-3xl font-bold italic saga-font">HABLEMOS.</h2>
-                                    <button onClick={() => setIsContactOpen(false)} className="hover:rotate-90 transition-all"><Icon name="x" size={24} /></button>
-                                </div>
-                                <div className="p-6 md:p-10 space-y-4 md:space-y-6">
-                                    <input type="text" className="w-full bg-transparent border-b border-white/10 py-3 md:py-4 outline-none focus:border-white transition-colors text-base md:text-lg font-light" placeholder="Nombre" />
-                                    <input type="email" className="w-full bg-transparent border-b border-white/10 py-3 md:py-4 outline-none focus:border-white transition-colors text-base md:text-lg font-light" placeholder="Email" />
-                                    <textarea className="w-full bg-transparent border-b border-white/10 py-3 md:py-4 h-20 md:h-24 outline-none focus:border-white transition-colors resize-none text-base md:text-lg font-light" placeholder="Tu idea..."></textarea>
-                                    <button className="w-full py-4 md:py-5 bg-white text-black rounded-full font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all text-xs">Enviar</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+/* CURSOR */
+(function(){
+  if(window.matchMedia('(hover:none)').matches)return;
+  const c=document.getElementById('cur'),r=document.getElementById('curRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.svc-card,.photo-card,.cliente').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{c.style.width='5px';c.style.height='5px';r.style.width='56px';r.style.height='56px';});
+    el.addEventListener('mouseleave',()=>{c.style.width='10px';c.style.height='10px';r.style.width='38px';r.style.height='38px';});
+  });
+})();
 
-                    {selectedProject && (
-                        <div className="fixed inset-0 z-[300] flex items-center justify-center">
-                            <div className="absolute inset-0 bg-black/98" onClick={() => setSelectedProject(null)}></div>
-                            <div className="relative bg-[#050505] w-full h-full overflow-hidden flex flex-col animate-in slide-in-from-bottom-10">
-                                <div className="p-6 md:p-12 border-b border-white/5 flex justify-between items-center">
-                                    <h2 className="text-2xl md:text-5xl font-bold italic saga-font leading-tight">{selectedProject.title}</h2>
-                                    <button onClick={() => setSelectedProject(null)} className="w-10 h-10 md:w-14 md:h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
-                                        <Icon name="x" size={24} />
-                                    </button>
-                                </div>
-                                <div className="flex-1 overflow-y-auto p-6 md:p-20 custom-scrollbar">
-                                    <p className="text-xl md:text-2xl text-white/40 mb-10 md:mb-20 italic font-light max-w-2xl text-left">{selectedProject.description}</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-                                        {selectedProject.items.map((item, i) => (
-                                            <div key={i} onClick={() => setActiveMedia(item)} className="group relative aspect-video rounded-xl md:rounded-3xl overflow-hidden glass-card">
-                                                <img src={item.thumb || item.url} className="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-1000" alt="" />
-                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-white text-black rounded-full flex items-center justify-center shadow-2xl scale-75 group-hover:scale-100 transition-all duration-500">
-                                                        {item.type === 'video' ? <Icon name="play" /> : <Icon name="maximize" />}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+/* SCROLL REVEAL */
+new IntersectionObserver((entries,obs)=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}}),{threshold:.1})
+  .observe&&(()=>{const obs=new IntersectionObserver((entries,o)=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');o.unobserve(e.target);}}),{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));})();
 
-                    {activeMedia && (
-                        <div className="fixed inset-0 z-[400] flex items-center justify-center p-4 bg-black/99" onClick={() => setActiveMedia(null)}>
-                            <div className="relative w-full max-w-5xl aspect-video rounded-xl md:rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setActiveMedia(null)} className="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white text-white hover:text-black rounded-full flex items-center justify-center transition-all">
-                                    <Icon name="x" size={20} />
-                                </button>
-                                {activeMedia.type === 'video' ? (
-                                    <video src={activeMedia.url} controls autoPlay className="w-full h-full bg-black object-contain" />
-                                ) : (
-                                    <img src={activeMedia.url} className="w-full h-full object-contain" alt="" />
-                                )}
-                            </div>
-                        </div>
-                    )}
+/* NAV SOLID */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>60),{passive:true});
 
-                    <footer className="py-20 md:py-40 px-8 text-center">
-                        <div className="reveal">
-                            <h2 className="text-[14vw] md:text-[12vw] font-black saga-font opacity-5 mb-8 md:mb-12 uppercase italic leading-none">SAGA STUDIO</h2>
-                            <div className="flex justify-center gap-6 md:gap-12 text-[8px] md:text-[10px] font-bold uppercase tracking-[0.3em] md:tracking-[0.5em] text-white/20">
-                                <a href="#" className="hover:text-white transition-all">Instagram</a>
-                                <a href="#" className="hover:text-white transition-all">LinkedIn</a>
-                                <a href="#" className="hover:text-white transition-all">Email</a>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
+/* ESC */
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeContact();closeSvc();closeNav();}});
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();closeNav();setTimeout(()=>t.scrollIntoView({behavior:'smooth',block:'start'}),80);}}));
+</script>
 </body>
 </html>
