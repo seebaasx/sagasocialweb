@@ -30,7 +30,7 @@
 <nav id="nav" role="navigation" aria-label="Menú principal">
   <a href="#hero" class="nav-logo" aria-label="Ir al inicio">
     <!-- SAGA Logo SVG — exact replica of uploaded logo -->
-    <svg class="nav-logo-svg" viewBox="0 0 420 180" fill="none" xmlns="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png">
+    <svg class="nav-logo-svg" viewBox="0 0 420 180" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- S -->
       <path d="M10 30 C10 30 10 15 30 15 L95 15 C110 15 115 25 115 35 C115 50 100 55 85 58 L40 68 C20 73 8 82 8 100 C8 118 20 130 42 130 L108 130 C125 130 132 118 132 105" stroke="white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       <!-- A (shared, center) -->
@@ -70,6 +70,13 @@
 <!-- ══ HERO ══ -->
 <section class="hero" id="hero">
   <div class="hero-left">
+    <div class="hero-brand-bar">
+      <a href="#hero" class="hero-logo-tag" aria-label="SAGA Social Media Studio">
+        <span class="hero-logo-mark">SAGA</span>
+        <span class="hero-logo-text">Social Media Studio</span>
+      </a>
+      <span class="hero-brand-note">Estrategia, contenido y comunidad</span>
+    </div>
     <p class="hero-eyebrow">Social Media Studio — Colombia</p>
     <h1 class="hero-title">
       Hacemos<br>
@@ -84,8 +91,15 @@
     </div>
   </div>
   <div class="hero-right">
-    <!-- Big white SAGA logo on red -->
-    <img src="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png" alt="SAGA logo" class="hero-logo-big" loading="lazy" />
+    <div class="hero-carousel" aria-label="Carrusel de trabajos de SAGA">
+      <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80');"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1517430816045-df4b7de0d835?auto=format&fit=crop&w=1200&q=80');"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80');"></div>
+      <div class="hero-logo-stamp" aria-hidden="true">
+        <span class="hero-logo-mark">SAGA</span>
+        <span class="hero-logo-text">Social Media Studio</span>
+      </div>
+    </div>
     <div class="hero-scroll-hint">Scroll<span></span></div>
   </div>
 </section>
@@ -416,6 +430,17 @@ new IntersectionObserver((entries,obs)=>entries.forEach(e=>{if(e.isIntersecting)
 
 /* NAV SOLID */
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>60),{passive:true});
+
+/* HERO CAROUSEL */
+const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+let heroIndex = 0;
+if(heroSlides.length){
+  setInterval(()=>{
+    heroSlides[heroIndex].classList.remove('active');
+    heroIndex = (heroIndex + 1) % heroSlides.length;
+    heroSlides[heroIndex].classList.add('active');
+  }, 5200);
+}
 
 /* ESC */
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeContact();closeSvc();closeNav();}});
