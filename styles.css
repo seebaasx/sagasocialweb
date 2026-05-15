@@ -622,36 +622,34 @@ nav.solid .nav-links a {
 }
 
 .nos-founder-item {
-  display: flex;
-  gap: 18px;
-  align-items: center;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 28px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.15);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 
-.nos-initial {
-  width: 62px;
-  height: 62px;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  background: rgba(248,37,52,.12);
-  color: var(--red);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 30px;
+.nos-founder-item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(248,37,52,.25);
+  box-shadow: 0 34px 80px rgba(0,0,0,.24);
 }
 
 .nos-info h3 {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 20px;
+  font-weight: 900;
+  font-size: 22px;
   line-height: 1.05;
-  margin: 0;
+  margin: 0 0 10px;
+  letter-spacing: .03em;
 }
 
 .nos-info p {
   font-size: 14px;
-  color: rgba(244,242,238,.72);
-  margin: 8px 0 0;
+  color: rgba(244,242,238,.74);
+  line-height: 1.85;
+  margin: 0;
 }
 
 .nos-right {
@@ -702,15 +700,26 @@ nav.solid .nav-links a {
 .photo-placeholder {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(180deg, rgba(248,37,52,.22), rgba(11,11,11,.95));
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(248,37,52,.18), rgba(11,11,11,.95));
 }
 
-.photo-placeholder .silhouette {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 110px;
-  color: rgba(255,255,255,.16);
+.photo-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.12), transparent 26%);
+}
+
+.photo-placeholder::after {
+  content: '';
+  position: absolute;
+  width: 20%;
+  height: 180%;
+  top: -20%;
+  right: -14%;
+  background: rgba(255,255,255,.05);
+  transform: rotate(24deg);
 }
 
 .photo-card-badge {
@@ -718,7 +727,7 @@ nav.solid .nav-links a {
   bottom: 24px;
   left: 24px;
   right: 24px;
-  background: rgba(11,11,11,.8);
+  background: rgba(11,11,11,.82);
   padding: 18px 20px;
   border-radius: 24px;
   border: 1px solid rgba(255,255,255,.08);
@@ -755,31 +764,12 @@ nav.solid .nav-links a {
   color: var(--white);
 }
 
-.nos-grid {
-  display: none;
-}
-
- .nos-title-strong {
-  font-size: 34px;
-  line-height: 1.05;
-}
-
- .photo-placeholder-sa {
+.photo-placeholder-sa {
   background: linear-gradient(160deg,#1a1a1a 0%,#2a2a2a 100%);
 }
 
 .photo-placeholder-ga {
   background: linear-gradient(160deg,#1e1e1e 0%,#2e2e2e 100%);
-}
-
-.silhouette {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: 120px;
-  color: rgba(248,37,52,.15);
-  line-height: 1;
-  position: absolute;
-  bottom: -10px;
 }
 
 /* ─────────────────────────────────────────────
@@ -798,9 +788,11 @@ nav.solid .nav-links a {
 .stats {
   display: grid;
   grid-template-columns: repeat(4,1fr);
-  border-radius: 24px;
+  border-radius: 28px;
   overflow: hidden;
   margin: 0 var(--px) 20px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
 }
 
 .svc-card {
@@ -906,17 +898,11 @@ nav.solid .nav-links a {
 /* ─────────────────────────────────────────────
    STATS
 ───────────────────────────────────────────── */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  border-radius: 24px;
-  overflow: hidden;
-  margin: 0 var(--px);
-}
 
 .stat {
-  padding: 60px 44px;
-  border-right: 1px solid rgba(0,0,0,.12);
+  padding: 52px 34px;
+  border-right: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.08);
 }
 
 .stat:last-child { border-right: none; }
@@ -955,8 +941,17 @@ nav.solid .nav-links a {
 }
 
 .step {
-  padding: 52px 32px 52px 0;
-  border-right: 1px solid rgba(244,242,238,.07);
+  padding: 46px 32px 46px 0;
+  border-right: 1px solid rgba(244,242,238,.1);
+  background: rgba(255,255,255,.03);
+  border-radius: 28px;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px rgba(0,0,0,.18);
+  border-color: rgba(248,37,52,.18);
 }
 
 .step:first-child { padding-left: 0; }
