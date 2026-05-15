@@ -618,22 +618,31 @@ nav.solid .nav-links a {
 
 .nos-founders-list {
   display: grid;
-  gap: 18px;
+  gap: 16px;
 }
 
-.nos-founder-item {
-  background: rgba(255,255,255,.04);
+.nos-founder-pill {
+  display: grid;
+  gap: 10px;
+  background: rgba(255,255,255,.05);
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 28px;
-  padding: 28px 28px 24px;
-  box-shadow: 0 24px 60px rgba(0,0,0,.15);
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  padding: 28px 30px;
 }
 
-.nos-founder-item:hover {
-  transform: translateY(-6px);
-  border-color: rgba(248,37,52,.25);
-  box-shadow: 0 34px 80px rgba(0,0,0,.24);
+.nos-founder-pill strong {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.nos-founder-pill span {
+  color: rgba(244,242,238,.72);
+  line-height: 1.8;
+  font-size: 14px;
 }
 
 .nos-info h3 {
@@ -657,20 +666,108 @@ nav.solid .nav-links a {
   justify-content: center;
 }
 
-.nos-photos {
+.photo-carousel {
   position: relative;
   width: min(560px, 100%);
-  height: 600px;
+  height: 520px;
+  border-radius: 36px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.18);
+  box-shadow: 0 40px 96px rgba(0,0,0,.28);
 }
 
-.photo-card {
-  position: absolute;
-  border-radius: 32px;
+.carousel-viewport {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: rgba(255,255,255,.04);
+}
+
+.carousel-track {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform .7s ease;
+}
+
+.carousel-slide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform .35s ease, filter .35s ease;
+}
+
+.carousel-slide:hover {
+  transform: scale(1.04);
+  z-index: 2;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(11,11,11,.65);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 5;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.carousel-control:hover {
+  background: rgba(248,37,52,.95);
+  border-color: rgba(255,255,255,.28);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.carousel-control.prev { left: 18px; }
+.carousel-control.next { right: 18px; }
+
+.slide-1 { background: linear-gradient(180deg, #1a1a1a 0%, #111 100%), radial-gradient(circle at 30% 30%, rgba(248,37,52,.24), transparent 28%); }
+
+.slide-2 { background: linear-gradient(180deg, #202020 0%, #0b0b0b 100%), radial-gradient(circle at 70% 20%, rgba(255,255,255,.12), transparent 26%); }
+
+.slide-3 { background: linear-gradient(180deg, #121212 0%, #050505 100%), radial-gradient(circle at 50% 15%, rgba(248,37,52,.18), transparent 20%); }
+
+@keyframes carouselScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.slide-caption {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  right: 28px;
+  background: rgba(11,11,11,.7);
+  padding: 18px 20px;
+  border-radius: 24px;
   border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 40px 90px rgba(0,0,0,.24);
-  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.slide-1 { background: linear-gradient(180deg, #1a1a1a 0%, #111 100%), radial-gradient(circle at 30% 30%, rgba(248,37,52,.24), transparent 28%); }
+
+.slide-2 { background: linear-gradient(180deg, #202020 0%, #0b0b0b 100%), radial-gradient(circle at 70% 20%, rgba(255,255,255,.12), transparent 26%); }
+
+.slide-3 { background: linear-gradient(180deg, #121212 0%, #050505 100%), radial-gradient(circle at 50% 15%, rgba(248,37,52,.18), transparent 20%); }
+
+@keyframes carouselScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 .photo-card:hover {
@@ -788,11 +885,44 @@ nav.solid .nav-links a {
 .stats {
   display: grid;
   grid-template-columns: repeat(4,1fr);
-  border-radius: 28px;
+  gap: 16px;
+  border-radius: 32px;
   overflow: hidden;
   margin: 0 var(--px) 20px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
+  padding: 12px;
+  background: rgba(255,255,255,.04);
+}
+
+.stat {
+  padding: 52px 34px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(248,37,52,.18), transparent 42%);
+  opacity: .4;
+  pointer-events: none;
+}
+
+.stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 70px rgba(0,0,0,.2);
+}
+
+.stat-n {
+  animation: statFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes statFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-6px); }
 }
 
 .svc-card {
@@ -1196,7 +1326,7 @@ footer {
 .section-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 900;
-  font-size: clamp(62px, 7vw, 96px);
+  font-size: clamp(58px, 6vw, 88px);
   line-height: .95;
   text-transform: uppercase;
   color: var(--white);

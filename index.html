@@ -148,36 +148,31 @@
       <span>Comunicación pensada para escalar resultados.</span>
     </div>
     <div class="nos-founders-list">
-      <article class="nos-founder-item reveal delay-05">
-        <div class="nos-info">
-          <h3>Sebastián Acevedo</h3>
-          <p>Estrategia &amp; Dirección Creativa</p>
-          <p>Planificamos marcas con impacto, atención al detalle y contenido pensado para conversión.</p>
-        </div>
-      </article>
-      <article class="nos-founder-item reveal delay-1">
-        <div class="nos-info">
-          <h3>Gabriela Acevedo</h3>
-          <p>Comunidad &amp; Producción Visual</p>
-          <p>Diseñamos contenidos premium y gestionamos comunidades para crecer con identidad y ritmo.</p>
-        </div>
-      </article>
+      <div class="nos-founder-pill reveal delay-05">
+        <strong>Sebastián Acevedo</strong>
+        <span>Estrategia, dirección creativa y desarrollo de marca.</span>
+      </div>
+      <div class="nos-founder-pill reveal delay-1">
+        <strong>Gabriela Acevedo</strong>
+        <span>Producción visual, contenido premium y community management.</span>
+      </div>
     </div>
   </div>
   <div class="nos-right reveal delay-15">
-    <div class="nos-photos">
-      <div class="photo-card photo-sa">
-        <div class="photo-placeholder photo-placeholder-sa"></div>
-        <div class="photo-card-badge">
-          <span class="badge-name">Sebastián Acevedo</span>
-          <p>Dirección creativa, estrategia de marca y contenido.</p>
-        </div>
-      </div>
-      <div class="photo-card photo-ga">
-        <div class="photo-placeholder photo-placeholder-ga"></div>
-        <div class="photo-card-badge">
-          <span class="badge-name">Gabriela Acevedo</span>
-          <p>Producción visual, social media y gestión de comunidad.</p>
+    <div class="photo-carousel">
+      <button class="carousel-control prev" type="button" aria-label="Anterior">‹</button>
+      <button class="carousel-control next" type="button" aria-label="Siguiente">›</button>
+      <div class="carousel-viewport">
+        <div class="carousel-track">
+          <div class="carousel-slide slide-1">
+            <div class="slide-caption">Brand stories<br>en movimiento</div>
+          </div>
+          <div class="carousel-slide slide-2">
+            <div class="slide-caption">Campañas sociales<br>de alto impacto</div>
+          </div>
+          <div class="carousel-slide slide-3">
+            <div class="slide-caption">Producción visual<br>premium</div>
+          </div>
         </div>
       </div>
     </div>
@@ -376,6 +371,28 @@ const SVCS=[
 const FOOTER_LOGO_URL = 'https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png';
 const footerLogo = document.getElementById('ftLogoImage');
 if(footerLogo){footerLogo.src = FOOTER_LOGO_URL;}
+
+/* CAROUSEL */
+(function(){
+  const track = document.querySelector('.carousel-track');
+  const prev = document.querySelector('.carousel-control.prev');
+  const next = document.querySelector('.carousel-control.next');
+  const viewport = document.querySelector('.carousel-viewport');
+  if(!track||!prev||!next||!viewport) return;
+  const slides = Array.from(track.children);
+  let index = 0;
+  let autoId = null;
+  const update = () => {
+    track.style.transform = `translateX(-${index*100}%)`;
+  };
+  const nextSlide = () => { index = (index + 1) % slides.length; update(); };
+  const prevSlide = () => { index = (index - 1 + slides.length) % slides.length; update(); };
+  prev.addEventListener('click', prevSlide);
+  next.addEventListener('click', nextSlide);
+  viewport.addEventListener('mouseenter', ()=>{ clearInterval(autoId); autoId = null; });
+  viewport.addEventListener('mouseleave', ()=>{ if(!autoId) autoId = setInterval(nextSlide, 5200); });
+  autoId = setInterval(nextSlide, 5200);
+})();
 
 /* CONTACT */
 function openContact(pre){
