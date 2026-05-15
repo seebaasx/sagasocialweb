@@ -1317,7 +1317,7 @@ footer {
 ───────────────────────────────────────────── */
 .section-label {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--red);
@@ -1326,7 +1326,7 @@ footer {
 .section-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 900;
-  font-size: clamp(82px, 7.5vw, 124px);
+  font-size: clamp(96px, 9vw, 142px);
   line-height: .92;
   text-transform: uppercase;
   color: var(--white);
@@ -1693,6 +1693,7 @@ footer {
   .hero-logo-panel { width: min(360px, 70%); }
 
   .hero-content { padding: clamp(32px, 6vw, 54px); }
+  .section-title { font-size: clamp(84px, 8vw, 118px); }
 
   .nosotros { grid-template-columns: 1fr; gap: 60px; }
   .nos-photos { height: 460px; }
@@ -1724,7 +1725,7 @@ footer {
   .hero-visual { padding: 0 20px 44px; }
   .hero-title { font-size: clamp(46px, 14vw, 72px); }
   .hero-sub { font-size: 15px; max-width: 100%; }
-  .section-title { font-size: clamp(60px, 8vw, 90px); }
+  .section-title { font-size: clamp(76px, 10vw, 104px); }
   .hero-actions { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 32px; width: 100%; }
   .hero-logo-panel { width: min(320px, 88%); }
   .hero-scroll-hint { bottom: 18px; }
@@ -1781,7 +1782,7 @@ footer {
 
 @media(max-width:400px) {
   .hero-title { font-size: clamp(50px, 14vw, 68px); }
-  .section-title { font-size: clamp(52px, 12vw, 72px); }
+  .section-title { font-size: clamp(60px, 14vw, 84px); }
   .photo-sa { width: 148px; height: 205px; }
   .photo-ga { width: 172px; height: 240px; }
   .stat-n { font-size: 50px; }
