@@ -403,14 +403,14 @@ if(footerLogo){footerLogo.src = FOOTER_LOGO_URL;}
   items.forEach(item => stats.appendChild(item.cloneNode(true)));
 
   let paused = false;
-  const speed = 0.35;
-  const totalWidth = () => stats.scrollWidth / 2;
+  const speed = 0.5;
+  const baseWidth = stats.scrollWidth / 2;
 
   const step = () => {
     if(!paused){
       stats.scrollLeft += speed;
-      if(stats.scrollLeft >= totalWidth()){
-        stats.scrollLeft -= totalWidth();
+      if(stats.scrollLeft >= baseWidth){
+        stats.scrollLeft -= baseWidth;
       }
     }
     requestAnimationFrame(step);

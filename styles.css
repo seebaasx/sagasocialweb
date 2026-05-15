@@ -1032,15 +1032,9 @@ nav.solid .nav-links a {
 .stats {
   display: flex;
   gap: 24px;
-  overflow-x: auto;
+  overflow: hidden;
   padding: 52px var(--px);
   -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
-}
-
-.stats::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
 }
 
 .stats::-webkit-scrollbar-thumb {
