@@ -661,8 +661,8 @@ nav.solid .nav-links a {
 
 .nos-photos {
   position: relative;
-  width: min(520px, 100%);
-  height: 560px;
+  width: min(560px, 100%);
+  height: 600px;
 }
 
 .photo-card {
@@ -672,20 +672,31 @@ nav.solid .nav-links a {
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.08);
   box-shadow: 0 40px 90px rgba(0,0,0,.24);
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 56px 110px rgba(0,0,0,.35);
+  border-color: rgba(248,37,52,.22);
 }
 
 .photo-card.photo-sa {
   top: 0;
-  left: 0;
-  width: 260px;
-  height: 340px;
+  left: -10px;
+  width: 300px;
+  height: 380px;
+  transform: rotate(-6deg);
+  z-index: 2;
 }
 
 .photo-card.photo-ga {
   bottom: 0;
-  right: 0;
-  width: 300px;
-  height: 420px;
+  right: -10px;
+  width: 340px;
+  height: 440px;
+  transform: rotate(5deg);
+  z-index: 3;
 }
 
 .photo-placeholder {
@@ -693,26 +704,40 @@ nav.solid .nav-links a {
   inset: 0;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, rgba(248,37,52,.24), rgba(11,11,11,.94));
+  background: linear-gradient(180deg, rgba(248,37,52,.22), rgba(11,11,11,.95));
 }
 
 .photo-placeholder .silhouette {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 92px;
-  color: rgba(255,255,255,.18);
+  font-size: 110px;
+  color: rgba(255,255,255,.16);
 }
 
-.photo-badge {
+.photo-card-badge {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(0,0,0,.65);
-  padding: 12px 16px;
-  border-radius: 999px;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  background: rgba(11,11,11,.8);
+  padding: 18px 20px;
+  border-radius: 24px;
   border: 1px solid rgba(255,255,255,.08);
+}
+
+.photo-card-badge p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(244,242,238,.72);
+}
+
+.photo-card-badge .badge-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--white);
 }
 
 .badge-dot {
@@ -761,13 +786,21 @@ nav.solid .nav-links a {
    SERVICIOS
 ───────────────────────────────────────────── */
 .services {
-  padding: 0 var(--px) 140px;
+  padding: 0 var(--px) 100px;
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3,minmax(0,1fr));
   gap: 32px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  border-radius: 24px;
+  overflow: hidden;
+  margin: 0 var(--px) 40px;
 }
 
 .svc-card {
@@ -910,15 +943,15 @@ nav.solid .nav-links a {
    PROCESO
 ───────────────────────────────────────────── */
 .proceso {
-  padding: 120px var(--px);
+  padding: 100px var(--px);
 }
 
 .proceso-grid {
   display: grid;
   grid-template-columns: repeat(4,1fr);
-  margin-top: 56px;
+  margin-top: 42px;
   border-top: 1px solid rgba(244,242,238,.07);
-  gap: 12px;
+  gap: 14px;
 }
 
 .step {
@@ -1159,8 +1192,8 @@ footer {
 ───────────────────────────────────────────── */
 .section-label {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  letter-spacing: .34em;
+  font-size: 13px;
+  letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--red);
 }
@@ -1168,8 +1201,8 @@ footer {
 .section-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 900;
-  font-size: clamp(52px, 6vw, 84px);
-  line-height: 1;
+  font-size: clamp(62px, 7vw, 96px);
+  line-height: .95;
   text-transform: uppercase;
   color: var(--white);
 }
@@ -1178,7 +1211,7 @@ footer {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 62px;
+  margin-bottom: 48px;
   padding-bottom: 22px;
   border-bottom: 1px solid rgba(244,242,238,.07);
 }
@@ -1537,9 +1570,9 @@ footer {
   .hero-content { padding: clamp(32px, 6vw, 54px); }
 
   .nosotros { grid-template-columns: 1fr; gap: 60px; }
-  .nos-photos { height: 420px; }
-  .photo-sa { width: 190px; height: 260px; left: 5%; }
-  .photo-ga { width: 220px; height: 300px; right: 5%; }
+  .nos-photos { height: 460px; }
+  .photo-sa { width: 220px; height: 310px; left: 8%; transform: rotate(-5deg); }
+  .photo-ga { width: 280px; height: 380px; right: 8%; transform: rotate(4deg); }
 
   .services-grid { grid-template-columns: 1fr 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
@@ -1578,9 +1611,9 @@ footer {
   .btn-red { width: 100%; text-align: center; }
 
   .nosotros { padding: 80px 24px; gap: 52px; }
-  .nos-photos { height: 360px; }
-  .photo-sa { width: 165px; height: 228px; left: 2%; }
-  .photo-ga { width: 192px; height: 268px; right: 2%; }
+  .nos-photos { height: 420px; }
+  .photo-sa { width: 180px; height: 242px; left: 4%; transform: rotate(-4deg); }
+  .photo-ga { width: 210px; height: 320px; right: 4%; transform: rotate(4deg); }
 
   .services { padding: 0 24px 88px; }
   .services-grid { grid-template-columns: 1fr; }
