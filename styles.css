@@ -1134,6 +1134,18 @@ footer {
   gap: 12px;
 }
 
+.ft-logo-img {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .75;
+}
+
+.ft-logo-img:hover {
+  opacity: 1;
+}
+
 .ft-svg {
   height: 28px;
   width: auto;
