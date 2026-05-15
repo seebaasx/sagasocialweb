@@ -1317,8 +1317,8 @@ footer {
 ───────────────────────────────────────────── */
 .section-label {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px;
-  letter-spacing: .28em;
+  font-size: 15px;
+  letter-spacing: .24em;
   text-transform: uppercase;
   color: var(--red);
 }
@@ -1326,8 +1326,8 @@ footer {
 .section-title {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 900;
-  font-size: clamp(72px, 7vw, 108px);
-  line-height: .95;
+  font-size: clamp(82px, 7.5vw, 124px);
+  line-height: .92;
   text-transform: uppercase;
   color: var(--white);
 }
