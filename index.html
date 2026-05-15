@@ -394,6 +394,33 @@ if(footerLogo){footerLogo.src = FOOTER_LOGO_URL;}
   autoId = setInterval(nextSlide, 5200);
 })();
 
+/* STATS AUTO SCROLL */
+(function(){
+  const stats = document.querySelector('.stats');
+  if(!stats) return;
+
+  const items = Array.from(stats.children);
+  items.forEach(item => stats.appendChild(item.cloneNode(true)));
+
+  let paused = false;
+  const speed = 0.35;
+  const totalWidth = () => stats.scrollWidth / 2;
+
+  const step = () => {
+    if(!paused){
+      stats.scrollLeft += speed;
+      if(stats.scrollLeft >= totalWidth()){
+        stats.scrollLeft -= totalWidth();
+      }
+    }
+    requestAnimationFrame(step);
+  };
+
+  stats.addEventListener('mouseenter', ()=> paused = true);
+  stats.addEventListener('mouseleave', ()=> paused = false);
+  requestAnimationFrame(step);
+})();
+
 /* CONTACT */
 function openContact(pre){
   document.getElementById('contactOverlay').classList.add('open');
