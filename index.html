@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="SAGA Social Media Studio — Estrategia, contenido y comunidad para marcas que quieren dejar huella. Fundado por Sebastián y Gabriela Acevedo.">
+  <meta name="keywords" content="marketing digital, agencia de marketing, social media, estrategia digital, contenido visual, gestión de redes">
+  <link rel="canonical" href="https://sagastudio.co">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SAGA Social Media Studio",
+    "url": "https://sagastudio.co",
+    "logo": "https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png",
+    "sameAs": [
+      "https://instagram.com/sagastudio",
+      "https://tiktok.com/@sagastudio",
+      "https://linkedin.com/company/sagastudio"
+    ]
+  }
+  </script>
 <title>SAGA — Social Media Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +35,22 @@
 <meta name="twitter:title" content="SAGA — Social Media Studio">
 <meta name="twitter:description" content="Estrategia, contenido y comunidad para marcas que quieren dejar huella.">
 <meta name="twitter:image" content="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png">
+  <meta name="keywords" content="marketing digital, agencia de marketing, social media, estrategia digital, contenido visual, gestión de redes">
+  <link rel="canonical" href="https://sagastudio.co">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "SAGA Social Media Studio",
+    "url": "https://sagastudio.co",
+    "logo": "https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png",
+    "sameAs": [
+      "https://instagram.com/sagastudio",
+      "https://tiktok.com/@sagastudio",
+      "https://linkedin.com/company/sagastudio"
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -385,6 +417,18 @@ function closeNav(){
   document.getElementById('drawer').classList.remove('open');
   document.body.style.overflow='';
 }
+/* Add scrolling class for blur */
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>0){document.body.classList.add('scrolling');}
+  else{document.body.classList.remove('scrolling');}
+});
+
+/* SCROLL NAV */
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav');
+  if(window.scrollY>50){nav.classList.add('solid');}
+  else{nav.classList.remove('solid');}
+});
 
 /* CURSOR */
 (function(){
