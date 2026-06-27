@@ -383,29 +383,65 @@ nav.solid .nav-links a {
   margin-top: 40px;
 }
 
+.hero {
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(360px, 1.05fr) minmax(420px, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 62px);
+  background: linear-gradient(180deg, #090909 0%, #090909 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 12% 12%, rgba(248,37,52,.16), transparent 18%), radial-gradient(circle at 88% 22%, rgba(255,255,255,.06), transparent 8%);
+  pointer-events: none;
+}
+
+.hero-copy-panel,
+.hero-visual {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-copy-panel {
+  display: flex;
+  align-items: center;
+  padding: clamp(48px, 5vw, 96px);
+}
+
+.hero-copy-inner {
+  max-width: 640px;
+}
+
 .hero-visual {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(26px, 4vw, 58px);
+  padding: clamp(20px, 4vw, 42px) 0;
 }
 
 .hero-brand-card {
-  width: min(520px, 100%);
+  width: min(560px, 100%);
   min-height: 560px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 26px;
-  padding: 42px 36px 42px;
+  gap: 24px;
+  padding: 46px 36px 42px;
   border-radius: 42px;
   background: rgba(255,255,255,.05);
   border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 70px 180px rgba(0,0,0,.24);
-  backdrop-filter: blur(20px);
+  box-shadow: 0 80px 160px rgba(0,0,0,.24);
+  backdrop-filter: blur(22px);
   overflow: hidden;
+  justify-self: end;
 }
 
 .hero-brand-card::before {
@@ -425,7 +461,7 @@ nav.solid .nav-links a {
   letter-spacing: .38em;
   text-transform: uppercase;
   color: var(--red);
-  opacity: .88;
+  opacity: .9;
 }
 
 .hero-logo-link {
@@ -439,15 +475,15 @@ nav.solid .nav-links a {
 
 .hero-logo-image {
   width: 100%;
-  max-width: 260px;
+  max-width: 300px;
   height: auto;
-  filter: drop-shadow(0 30px 100px rgba(248,37,52,.32));
+  filter: drop-shadow(0 30px 110px rgba(248,37,52,.32));
   transition: transform .25s ease, filter .25s ease;
 }
 
 .hero-logo-link:hover .hero-logo-image {
-  transform: translateY(-3px) scale(1.04);
-  filter: drop-shadow(0 30px 112px rgba(248,37,52,.42));
+  transform: translateY(-2px) scale(1.04);
+  filter: drop-shadow(0 30px 120px rgba(248,37,52,.42));
 }
 
 .hero-logo-tagline {
@@ -458,20 +494,21 @@ nav.solid .nav-links a {
   line-height: 1.8;
   letter-spacing: .08em;
   color: rgba(255,255,255,.78);
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .hero-brand-grid {
   width: 100%;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .brand-value {
-  padding: 16px 20px;
-  border-radius: 24px;
-  background: rgba(255,255,255,.06);
+  padding: 18px 22px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.07);
   border: 1px solid rgba(255,255,255,.08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
 }
 
 .brand-value strong {
@@ -487,7 +524,7 @@ nav.solid .nav-links a {
 
 .brand-value span {
   display: block;
-  color: rgba(255,255,255,.74);
+  color: rgba(255,255,255,.78);
   font-size: 14px;
   line-height: 1.8;
 }
@@ -1066,7 +1103,16 @@ nav.solid .nav-links a {
    SERVICIOS
 ───────────────────────────────────────────── */
 .services {
-  padding: 0 var(--px) 72px;
+  padding: 0 var(--px) 84px;
+  position: relative;
+}
+
+.services::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 18%, rgba(248,37,52,.06), transparent 18%), radial-gradient(circle at 75% 60%, rgba(255,255,255,.04), transparent 18%);
+  pointer-events: none;
 }
 
 .services-grid {
@@ -1076,8 +1122,11 @@ nav.solid .nav-links a {
 }
 
 .svc-card {
-  background: rgba(18,18,18,.98);
+  position: relative;
+  background: rgba(18,18,18,.96);
   border: 1px solid rgba(255,255,255,.08);
+  overflow: hidden;
+  box-shadow: 0 40px 110px rgba(0,0,0,.18);
 }
 
 .svc-card::before {
@@ -1086,8 +1135,14 @@ nav.solid .nav-links a {
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 6px;
   background: linear-gradient(90deg, rgba(248,37,52,1) 0%, rgba(255,255,255,.12) 75%);
+}
+
+.svc-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(248,37,52,.18);
+  box-shadow: 0 48px 130px rgba(248,37,52,.14);
 }
 
 .stats {
@@ -1095,6 +1150,7 @@ nav.solid .nav-links a {
   gap: 24px;
   overflow: hidden;
   padding: 52px var(--px);
+  position: relative;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1113,12 +1169,6 @@ nav.solid .nav-links a {
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.12);
   box-shadow: 0 28px 80px rgba(0,0,0,.18);
-}
-
-.stat {
-  padding: 52px 34px;
-  border-radius: 28px;
-  background: rgba(255,255,255,.1);
   position: relative;
   overflow: hidden;
   transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
@@ -1129,13 +1179,13 @@ nav.solid .nav-links a {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at top left, rgba(248,37,52,.18), transparent 42%);
-  opacity: .4;
+  opacity: .35;
   pointer-events: none;
 }
 
 .stat:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 70px rgba(0,0,0,.2);
+  transform: translateY(-6px);
+  box-shadow: 0 34px 100px rgba(0,0,0,.22);
 }
 
 .stat-n {
