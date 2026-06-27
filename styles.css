@@ -552,122 +552,29 @@ nav.solid .nav-links a {
   animation: scrollLine 1.8s 1.4s infinite;
 }
 
-.hero-carousel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 22% 22%, rgba(255,255,255,.08), transparent 20%), radial-gradient(circle at 78% 68%, rgba(248,37,52,.12), transparent 22%);
-  pointer-events: none;
-}
-
-.hero-carousel-track {
-  display: flex;
-  width: 300%;
-  height: 100%;
-  transition: transform .75s cubic-bezier(.22,1,.36,1);
-}
-
-.hero-carousel-slide {
-  min-width: 100%;
-  padding: 64px 60px 56px;
+.hero-brand-carousel {
   display: grid;
-  align-content: start;
-  gap: 20px;
-  position: relative;
-}
-
-.hero-carousel-slide h2 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: clamp(38px, 5vw, 60px);
-  line-height: 1.02;
-  color: #fff;
-  margin: 0;
-}
-
-.hero-carousel-slide p {
-  font-size: 16px;
-  line-height: 1.9;
-  color: rgba(255,255,255,.82);
-  max-width: 520px;
-}
-
-.slide-chip {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: .32em;
-  text-transform: uppercase;
-  color: var(--red);
-}
-
-.hero-carousel-nav {
-  position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 24px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.hero-carousel-control {
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(11,11,11,.65);
-  color: var(--white);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 28px;
-  transition: transform .2s ease, background .2s ease, border-color .2s ease;
-}
-
-.hero-carousel-control:hover {
-  background: rgba(248,37,52,.95);
-  border-color: rgba(255,255,255,.28);
-  transform: scale(1.05);
-}
-
-.hero-carousel-slide.slide-1 {
-  background: linear-gradient(180deg, #1a1a1a 0%, #111 100%), radial-gradient(circle at 30% 30%, rgba(248,37,52,.24), transparent 28%);
-}
-
-.hero-carousel-slide.slide-2 {
-  background: linear-gradient(180deg, #202020 0%, #0b0b0b 100%), radial-gradient(circle at 70% 20%, rgba(255,255,255,.12), transparent 26%);
-}
-
-.hero-carousel-slide.slide-3 {
-  background: linear-gradient(180deg, #121212 0%, #050505 100%), radial-gradient(circle at 50% 15%, rgba(248,37,52,.18), transparent 20%);
-}
-
-.hero-logo-link {
-  display: inline-flex;
+  gap: 14px;
   width: 100%;
-  justify-content: center;
-  transition: transform .25s ease, filter .25s ease;
-}
-
-.hero-logo-image {
-  width: 100%;
-  max-width: 260px;
-  height: auto;
-  filter: drop-shadow(0 30px 100px rgba(248,37,52,.32));
-  transition: transform .25s ease, filter .25s ease;
-}
-
-.hero-logo-link:hover .hero-logo-image {
-  transform: translateY(-3px) scale(1.04);
-  filter: drop-shadow(0 30px 112px rgba(248,37,52,.42));
-}
-
-.hero-logo-tagline {
+  justify-items: center;
   text-align: center;
-  font-size: 14px;
-  line-height: 1.8;
-  letter-spacing: .08em;
-  color: rgba(255,255,255,.72);
 }
+
+.brand-carousel-item {
+  display: block;
+  font-size: 14px;
+  line-height: 1.9;
+  color: rgba(255,255,255,.72);
+  max-width: 420px;
+  transition: color .25s ease, transform .25s ease;
+}
+
+.brand-carousel-item.active {
+  color: #fff;
+  font-weight: 700;
+  transform: scale(1.01);
+}
+
 
 .btn-red {
   font-family: 'Barlow Condensed', sans-serif;
@@ -715,14 +622,14 @@ nav.solid .nav-links a {
 
 .hero-scroll-hint {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 10px;
   letter-spacing: .28em;
   text-transform: uppercase;
-  color: rgba(244,242,238,.3);
+  color: rgba(244,242,238,.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2024,7 +1931,6 @@ footer {
   .hero { min-height: 100svh; grid-template-columns: 1fr; }
   .hero-copy-panel { padding: clamp(32px, 5vw, 64px); }
   .hero-visual { padding: 0 32px 48px; }
-  .hero-logo-panel { width: min(360px, 70%); }
 
   .hero-content { padding: clamp(32px, 6vw, 54px); }
   .section-title { font-size: clamp(40px, 5vw, 56px); }
@@ -2059,7 +1965,6 @@ footer {
   .hero-sub { font-size: 15px; max-width: 100%; }
   .section-title { font-size: clamp(38px, 6vw, 50px); }
   .hero-actions { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 32px; width: 100%; }
-  .hero-logo-panel { width: min(320px, 88%); }
   .hero-scroll-hint { bottom: 18px; }
   .nos-grid { grid-template-columns: 1fr; }
   .nos-card-main { grid-column: auto; }
