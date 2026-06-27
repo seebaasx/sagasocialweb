@@ -618,11 +618,19 @@ nav.solid .nav-links a {
   overflow: hidden;
   box-shadow: 0 30px 70px rgba(17,17,17,.06);
   display: grid;
-  gap: 18px;
+  grid-template-columns: minmax(180px, 220px) 1fr;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.founder-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 36px 110px rgba(17,17,17,.12);
+  border-color: rgba(248,37,52,.18);
 }
 
 .founder-photo {
-  min-height: 280px;
+  min-height: auto;
+  padding: 34px;
   display: grid;
   place-items: center;
   color: var(--text);
@@ -630,29 +638,38 @@ nav.solid .nav-links a {
   font-size: 72px;
   font-weight: 900;
   text-transform: uppercase;
-  background: linear-gradient(135deg, rgba(248,37,52,.16), rgba(255,255,255,.95));
+  background: linear-gradient(135deg, rgba(248,37,52,.18), rgba(255,255,255,.95));
+  transition: transform .3s ease, filter .3s ease;
+}
+
+.founder-card:hover .founder-photo {
+  transform: scale(1.04);
+  filter: saturate(1.1);
 }
 
 .founder-copy {
-  padding: 26px 28px 32px;
+  padding: 28px 28px 28px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .founder-copy strong {
   display: block;
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 900;
-  font-size: 18px;
+  font-size: 22px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   color: var(--text);
 }
 
 .founder-copy p {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.9;
-  color: rgba(17,17,17,.74);
+  font-size: 16px;
+  line-height: 1.95;
+  color: rgba(17,17,17,.78);
 }
 
 .nos-visual {
