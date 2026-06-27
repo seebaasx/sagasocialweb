@@ -8,7 +8,7 @@
 <meta name="keywords" content="marketing digital, agencia de marketing, social media, estrategia digital, contenido visual, redes sociales, community management, producción de contenido">
 <meta name="robots" content="index, follow">
 <meta name="author" content="SAGA Social Media Studio">
-<meta name="theme-color" content="#0B0B0B">
+<meta name="theme-color" content="#ffffff">
 <link rel="canonical" href="https://sagastudio.co">
 <link rel="alternate" href="https://sagastudio.co/" hreflang="es">
 <link rel="icon" href="/favicon.ico">
@@ -68,12 +68,12 @@
 <header role="banner">
 <nav id="nav" role="navigation" aria-label="Menú principal">
   <a href="#hero" class="nav-logo" aria-label="Ir al inicio">
-    <span class="nav-brand">Social Media Studio</span>
+    <span class="nav-brand">SAGA</span>
   </a>
 
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#nosotros">Quiénes somos</a></li>
     <li><a href="#proceso">Proceso</a></li>
   </ul>
   <button class="nav-btn" type="button" onclick="openContact()" aria-label="Abrir formulario de contacto">Hablemos</button>
@@ -86,7 +86,7 @@
 <!-- Mobile drawer -->
 <div class="mob-drawer" id="drawer">
   <a href="#servicios" onclick="closeNav()">Servicios</a>
-  <a href="#nosotros" onclick="closeNav()">Nosotros</a>
+  <a href="#nosotros" onclick="closeNav()">Quiénes somos</a>
   <a href="#proceso" onclick="closeNav()">Proceso</a>
   <button class="mob-cta-mob" onclick="closeNav();openContact()">Hablemos</button>
 </div>
@@ -97,12 +97,12 @@
 <section class="hero" id="hero">
   <div class="hero-copy-panel">
     <div class="hero-copy-inner">
-      <p class="hero-eyebrow">Agencia de marketing digital</p>
-      <h1 class="hero-title">Hacemos que tu marca <em>hable.</em></h1>
-      <p class="hero-sub">Fundado por Sebastián y Gabriela Acevedo. Transformamos la presencia digital de marcas ambiciosas con estrategia, contenido y campañas que generan resultados.</p>
+      <p class="hero-eyebrow">Agencia de social media</p>
+      <h1 class="hero-title">Creamos marcas digitales con <em>autoridad.</em></h1>
+      <p class="hero-sub">Estrategia, contenido y comunidad diseñados para negocios que quieren crecer con una presencia actual, clara y humana.</p>
       <div class="hero-actions">
-        <button class="btn-red" onclick="openContact()">Empezar ahora</button>
-        <a href="#servicios" class="btn-ghost">Ver portafolio</a>
+        <button class="btn-red" onclick="openContact()">Hablemos</button>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
       </div>
     </div>
   </div>
@@ -113,11 +113,16 @@
       <a href="#hero" class="hero-logo-link">
         <img src="https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2C-5F25-42F7-A791-8C67F21195A8-Photoroom.png" alt="Logo de SAGA" class="hero-logo-image">
       </a>
-      <p class="hero-logo-tagline">Social Media Studio para marcas que quieren impacto.</p>
-      <div class="hero-brand-carousel" aria-label="Destacados de SAGA">
-        <span class="brand-carousel-item active">Branding digital que despierta emoción.</span>
-        <span class="brand-carousel-item">Campañas sociales con objetivo real.</span>
-        <span class="brand-carousel-item">Producción visual que detiene el scroll.</span>
+      <p class="hero-logo-tagline">Estrategia y contenidos para marcas que buscan una voz auténtica en redes.</p>
+      <div class="brand-card-grid">
+        <div class="brand-pill">
+          <strong>Contenido con propósito</strong>
+          <span>Publicaciones, reels y campañas con sentido.</span>
+        </div>
+        <div class="brand-pill">
+          <strong>Presencia realmente clara</strong>
+          <span>Identidad digital estructurada y coherente.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -125,23 +130,6 @@
   <div class="hero-scroll-hint">Realiza tu SAGA<span></span></div>
 </section>
 
-<!-- ══ TICKER ══ -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span class="ticker-item">Estrategia Digital</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Contenido Visual</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Gestión de Comunidad</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Campañas de Impacto</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Análisis & Métricas</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Producción Audiovisual</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Estrategia Digital</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Contenido Visual</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Gestión de Comunidad</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Campañas de Impacto</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Análisis & Métricas</span><span class="ticker-dot">✦</span>
-    <span class="ticker-item">Producción Audiovisual</span><span class="ticker-dot">✦</span>
-  </div>
-</div>
 
 <!-- ══ NOSOTROS ══ -->
 <section class="nosotros" id="nosotros">
@@ -166,21 +154,13 @@
     </div>
   </div>
   <div class="nos-right reveal delay-15">
-    <div class="photo-carousel">
-      <button class="carousel-control prev" type="button" aria-label="Anterior">‹</button>
-      <button class="carousel-control next" type="button" aria-label="Siguiente">›</button>
-      <div class="carousel-viewport">
-        <div class="carousel-track">
-          <div class="carousel-slide slide-1">
-            <div class="slide-caption">Brand stories<br>en movimiento</div>
-          </div>
-          <div class="carousel-slide slide-2">
-            <div class="slide-caption">Campañas sociales<br>de alto impacto</div>
-          </div>
-          <div class="carousel-slide slide-3">
-            <div class="slide-caption">Producción visual<br>premium</div>
-          </div>
-        </div>
+    <div class="nos-visual">
+      <div class="nos-visual-tag">Agencia boutique con mirada moderna</div>
+      <p class="nos-visual-copy">Combinamos estrategia de marca, contenidos visuales y comunidad para construir experiencias digitales con sentido.</p>
+      <div class="nos-visual-list">
+        <span>Dirección creativa y storytelling</span>
+        <span>Producción de contenido con estilo</span>
+        <span>Gestión social orientada a resultados</span>
       </div>
     </div>
   </div>
@@ -269,19 +249,6 @@
       <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
       <h3 class="step-name">Optimización</h3><p class="step-desc">Medimos, aprendemos y mejoramos. Cada mes mejor que el anterior.</p>
     </div>
-  </div>
-</section>
-
-<!-- ══ CLIENTES ══ -->
-<section class="clientes reveal">
-  <p class="clientes-lbl">Marcas que confían en SAGA</p>
-  <div class="clientes-row">
-    <span class="cliente">El Origen</span>
-    <span class="cliente">Studio Kova</span>
-    <span class="cliente">Pharma+</span>
-    <span class="cliente">Modus Wear</span>
-    <span class="cliente">Lumina</span>
-    <span class="cliente">BuildCo</span>
   </div>
 </section>
 
