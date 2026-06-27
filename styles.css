@@ -262,7 +262,7 @@ nav.solid .nav-links a {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 290;
+  z-index: 310;
   background: rgba(255,255,255,.98);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -490,7 +490,7 @@ nav.solid .nav-links a {
   max-width: 380px;
 }
 
-.hero-brand-grid {
+.brand-card-grid {
   width: 100%;
   display: grid;
   gap: 14px;
@@ -840,7 +840,7 @@ nav.solid .nav-links a {
   font-weight: 900;
   font-size: 32px;
   text-transform: uppercase;
-  color: var(--white);
+  color: var(--text);
   line-height: 1.02;
   margin-bottom: 18px;
   letter-spacing: .02em;
@@ -849,7 +849,7 @@ nav.solid .nav-links a {
 .svc-desc {
   font-size: 15px;
   line-height: 1.95;
-  color: rgba(244,242,238,.78);
+  color: rgba(17,17,17,.72);
 }
 
 .svc-arrow {
@@ -918,6 +918,9 @@ nav.solid .nav-links a {
   letter-spacing: .18em;
   text-transform: uppercase;
   color: rgba(17,17,17,.65);
+}
+
+/* ─────────────────────────────────────────────
    PROCESO
 ───────────────────────────────────────────── */
 .proceso {
@@ -1511,9 +1514,6 @@ footer {
   .section-title { font-size: clamp(40px, 5vw, 56px); }
 
   .nosotros { grid-template-columns: 1fr; gap: 60px; }
-  .nos-photos { height: 460px; }
-  .photo-sa { width: 220px; height: 310px; left: 8%; transform: rotate(-5deg); }
-  .photo-ga { width: 280px; height: 380px; right: 8%; transform: rotate(4deg); }
 
   .services-grid { grid-template-columns: 1fr 1fr; }
   .stats { display: flex; }
@@ -1541,15 +1541,10 @@ footer {
   .section-title { font-size: clamp(38px, 6vw, 50px); }
   .hero-actions { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 32px; width: 100%; }
   .hero-scroll-hint { bottom: 18px; }
-  .nos-grid { grid-template-columns: 1fr; }
-  .nos-card-main { grid-column: auto; }
 
   .btn-red { width: 100%; text-align: center; }
 
   .nosotros { padding: 80px 24px; gap: 52px; }
-  .nos-photos { height: 420px; }
-  .photo-sa { width: 180px; height: 242px; left: 4%; transform: rotate(-4deg); }
-  .photo-ga { width: 210px; height: 320px; right: 4%; transform: rotate(4deg); }
 
   .services { padding: 0 24px 88px; }
   .services-grid { grid-template-columns: 1fr; }
@@ -1585,7 +1580,5 @@ footer {
 @media(max-width:400px) {
   .hero-title { font-size: clamp(50px, 14vw, 68px); }
   .section-title { font-size: clamp(36px, 12vw, 44px); }
-  .photo-sa { width: 148px; height: 205px; }
-  .photo-ga { width: 172px; height: 240px; }
   .stat-n { font-size: 50px; }
 }

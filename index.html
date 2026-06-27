@@ -346,33 +346,6 @@ const FOOTER_LOGO_URL = 'https://r2.fivemanage.com/rlMpa4HCjCLM3vQVrxiNo/2D590A2
 const footerLogo = document.getElementById('ftLogoImage');
 if(footerLogo){footerLogo.src = FOOTER_LOGO_URL;}
 
-/* STATS AUTO SCROLL */
-(function(){
-  const stats = document.querySelector('.stats');
-  if(!stats) return;
-
-  const items = Array.from(stats.children);
-  items.forEach(item => stats.appendChild(item.cloneNode(true)));
-
-  let paused = false;
-  const speed = 0.5;
-  const baseWidth = stats.scrollWidth / 2;
-
-  const step = () => {
-    if(!paused){
-      stats.scrollLeft += speed;
-      if(stats.scrollLeft >= baseWidth){
-        stats.scrollLeft -= baseWidth;
-      }
-    }
-    requestAnimationFrame(step);
-  };
-
-  stats.addEventListener('mouseenter', ()=> paused = true);
-  stats.addEventListener('mouseleave', ()=> paused = false);
-  requestAnimationFrame(step);
-})();
-
 /* CONTACT */
 function openContact(pre){
   document.getElementById('contactOverlay').classList.add('open');
