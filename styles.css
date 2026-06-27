@@ -28,7 +28,7 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: radial-gradient(circle at top left, rgba(248,37,52,.08), transparent 22%), linear-gradient(180deg, #ffffff 0%, #f6f6f6 100%), repeating-linear-gradient(135deg, rgba(255,255,255,0) 0 28px, rgba(248,37,52,.015) 28px 29px);
   color: var(--text);
   font-family: 'Barlow', sans-serif;
   font-weight: 300;
@@ -604,35 +604,60 @@ nav.solid .nav-links a {
   margin-bottom: 28px;
 }
 
-.nos-copy {
-  font-size: 16px;
-  line-height: 1.95;
-  color: rgba(17,17,17,.78);
-  max-width: 560px;
-  margin-bottom: 34px;
-}
-
-.nos-highlights {
+.founders-grid {
   display: grid;
-  gap: 12px;
-  margin-bottom: 38px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
 }
 
-.nos-highlights span {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 18px;
-  border-radius: 999px;
-  background: rgba(248,37,52,.08);
-  color: rgba(17,17,17,.92);
-  font-size: 13px;
-  line-height: 1.5;
-  letter-spacing: .01em;
-}
-
-.nos-founders-list {
+.founder-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(17,17,17,.06);
   display: grid;
-  gap: 16px;
+  gap: 18px;
+}
+
+.founder-photo {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 72px;
+  font-weight: 900;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(248,37,52,.16), rgba(255,255,255,.95));
+}
+
+.founder-copy {
+  padding: 26px 28px 32px;
+}
+
+.founder-copy strong {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.founder-copy p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(17,17,17,.74);
+}
+
+.nos-visual {
+  width: min(540px, 100%);
+  padding: 38px 38px 40px;
 }
 
 .nos-founder-pill {
@@ -715,53 +740,6 @@ nav.solid .nav-links a {
   box-shadow: 0 34px 95px rgba(17,17,17,.12);
 }
 
-.stats {
-  display: flex;
-  gap: 24px;
-  overflow: hidden;
-  padding: 52px var(--px);
-  position: relative;
-  -webkit-overflow-scrolling: touch;
-}
-
-.stats::before {
-  display: none;
-}
-
-.stat {
-  flex: 0 0 min(360px, 82vw);
-  padding: 56px 36px;
-  border-radius: 34px;
-  background: #ffffff;
-  border: 1px solid var(--border);
-  box-shadow: 0 28px 80px rgba(17,17,17,.06);
-  position: relative;
-  overflow: hidden;
-  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-}
-
-.stat::before {
-  display: none;
-}
-
-.stat:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 34px 100px rgba(0,0,0,.22);
-}
-
-.stat-n {
-  animation: statFloat 4s ease-in-out infinite alternate;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900;
-  font-size: clamp(74px, 8vw, 96px);
-  line-height: .88;
-  color: var(--text);
-}
-
-@keyframes statFloat {
-  from { transform: translateY(0); }
-  to { transform: translateY(-6px); }
-}
 
 .svc-card {
   background: #ffffff;
@@ -863,26 +841,6 @@ nav.solid .nav-links a {
   transition: opacity .3s, transform .3s;
 }
 
-/* ─────────────────────────────────────────────
-   STATS
-───────────────────────────────────────────── */
-
-.stats {
-  display: flex;
-  gap: 24px;
-  overflow: hidden;
-  padding: 52px var(--px);
-  -webkit-overflow-scrolling: touch;
-}
-
-.stats::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.16);
-  border-radius: 999px;
-}
-
-.stats::-webkit-scrollbar-track {
-  background: transparent;
-}
 
 .stat {
   flex: 0 0 min(360px, 82vw);
